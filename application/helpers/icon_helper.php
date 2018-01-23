@@ -1,0 +1,74 @@
+<?php
+function set_icon($nama_field)
+{
+    // cek $_POST ???
+    if ($_POST) {
+        if (form_error($nama_field)) {
+            echo '<span class="ace-icon fa fa-close red form-control-feedback"></span>';
+        } else {
+            echo '<span class="ace-icon fa fa-check green form-control-feedback"></span>';
+        }
+    }
+}
+
+// Set style (textbox) berdasarkan hasil validasi.
+// Mendukung untuk group input, lihat pada nilai.
+function set_validation_style($field)
+{
+    if ($_POST) {
+        // Apakah nama_field = array
+        if (is_array($field)) {
+            $last_status = false;
+            for ($i = 0; $i < count($field); $i++) {
+                if (form_error($field[$i]) || $last_status) {
+                    $last_status = true; // ya, ada error
+                } else {
+                    $last_status = false; // no, tidak ada error
+                }
+            }
+
+            if ($last_status) {
+                echo 'has-error';
+            } else {
+                echo 'has-success';
+            }
+
+            // Bukan array
+        } else {
+            if (form_error($field)) {
+                echo 'has-error';
+            } else {
+                echo 'has-success';
+            }
+        }
+    }
+}
+function set_validation($field)
+{
+    if ($_POST) {
+        // Apakah nama_field = array
+        if (is_array($field)) {
+            $last_status = false;
+            for ($i = 0; $i < count($field); $i++) {
+                if (form_error($field[$i]) || $last_status) {
+                    $last_status = true; // ya, ada error
+                } else {
+                    $last_status = false; // no, tidak ada error
+                }
+            }
+
+            if ($last_status) {
+                echo '<span class="alert alert-danger alert-dismissable">Masih Kosong '.$field[$i].'</span';
+            } else {
+                echo 'has-success';
+            }
+
+            // Bukan array
+        } else {
+            if (form_error($field)) {
+                echo '<span class="text-warning bigger-110 orange"><i class="ace-icon fa fa-close"></i>
+                        Cek <b>'.$field.'</b></span>';
+            } 
+        }
+    }
+}
