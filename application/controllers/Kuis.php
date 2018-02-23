@@ -5,12 +5,9 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 
-
 class Kuis extends CI_Controller
 
 {
-
-        
 
     function __construct()
 
@@ -21,7 +18,7 @@ class Kuis extends CI_Controller
         $this->auth->cek_auth();
         $this->settingvalue_library->production();
         $this->load->model('Identitas_model'); 
-
+        $this->load->model('Crud_model');
         $this->load->model('Respon_model');      
 
     }
@@ -29,20 +26,13 @@ class Kuis extends CI_Controller
 
 
     public function index()
-
     {
 
         $data = array(
-
         'button' => 'Simpan',
-
         );
 
-
-
         $this->template->load('template','User/kuisioner', $data);
-
-        
 
     }
 
@@ -212,8 +202,7 @@ class Kuis extends CI_Controller
 
             'f1752' => set_value('f1752', $row->F1752),'f1753' => set_value('f1753', $row->F1753),
 
-            'f1754' => set_value('f1754', $row->F1754),
-
+            'f1754' => set_value('f1754', $row->F1754)
             );
 
                 $this->template->load('template','User/kuisioner', $data);
@@ -292,11 +281,9 @@ class Kuis extends CI_Controller
 
     {
 
-        // $this->_rules();
+        $this->_rules();
 
-
-
-        // if ($this->form_validation->run() == TRUE) {
+        if ($this->form_validation->run() == TRUE) {
 
             $key = 'id_biodata';
 
@@ -316,245 +303,18 @@ class Kuis extends CI_Controller
 
             );
 
-            $n2 = '2';
-
-
-
-            $f21 = $this->input->post('21',TRUE);
-
-
-
-            $f22 = $this->input->post('22',TRUE);
-
-
-
-            $f23 = $this->input->post('23',TRUE);
-
-
-
-            $f24 = $this->input->post('24',TRUE);
-
-
-
-            $f25 = $this->input->post('25',TRUE);
-
-
-
-            $f26 = $this->input->post('26',TRUE);
-
-
-
-            $f27 = $this->input->post('27',TRUE);
-
-
-
-            $a21 = array('kode_kuis' => $n2,'kode_pilihan' => '1', 'nilai' => $f21, 'id_biodata' => $id);
-
-            $a22 = array('kode_kuis' => $n2,'kode_pilihan' => '2', 'nilai' => $f22,'id_biodata' => $id);
-
-            $a23 = array('kode_kuis' => $n2,'kode_pilihan' => '3', 'nilai' => $f23,'id_biodata' => $id);
-
-            $a24 = array('kode_kuis' => $n2,'kode_pilihan' => '4', 'nilai' => $f24, 'id_biodata' => $id);
-
-            $a25 = array('kode_kuis' => $n2,'kode_pilihan' => '5', 'nilai' => $f25,'id_biodata' => $id);
-
-            $a26 = array('kode_kuis' => $n2,'kode_pilihan' => '6', 'nilai' => $f26, 'id_biodata' => $id);
-
-            $a27 = array('kode_kuis' => $n2,'kode_pilihan' => '7', 'nilai' => $f27, 'id_biodata' => $id );
-
-//--------------------------------------------------------------------------------------//
-
-            $f171 = $this->input->post('171',TRUE);
-
-            $kode171 = $this->input->post('kode171',TRUE);
-
-            $pilihan171 = $this->input->post('pilihan171',TRUE);
-
-
-
-            $f172 = $this->input->post('172',TRUE);
-
-            $kode172 = $this->input->post('kode172',TRUE);
-
-            $pilihan172 = $this->input->post('pilihan172',TRUE);
-
-
-
-            $f173 = $this->input->post('173',TRUE);
-
-            $kode173 = $this->input->post('kode173',TRUE);
-
-            $pilihan173 = $this->input->post('pilihan173',TRUE);
-
-
-
-            $f174 = $this->input->post('174',TRUE);
-
-            $kode174 = $this->input->post('kode174',TRUE);
-
-            $pilihan174 = $this->input->post('pilihan174',TRUE);
-
-
-
-            $f175 = $this->input->post('175',TRUE);
-
-            $kode175 = $this->input->post('kode175',TRUE);
-
-            $pilihan175 = $this->input->post('pilihan175',TRUE);
-
-
-
-            $f176 = $this->input->post('176',TRUE);
-
-            $kode176 = $this->input->post('kode176',TRUE);
-
-            $pilihan176 = $this->input->post('pilihan176',TRUE);
-
-
-
-            $f177 = $this->input->post('177',TRUE);
-
-            $kode177 = $this->input->post('kode177',TRUE);
-
-            $pilihan177 = $this->input->post('pilihan177',TRUE);
-
-
-
-            $f178 = $this->input->post('178',TRUE);
-
-            $kode178 = $this->input->post('kode178',TRUE);
-
-            $pilihan178 = $this->input->post('pilihan178',TRUE);
-
-
-
-            $f179 = $this->input->post('179',TRUE);
-
-            $kode179 = $this->input->post('kode179',TRUE);
-
-            $pilihan179 = $this->input->post('pilihan179',TRUE);
-
-
-
-            $f1710 = $this->input->post('1710',TRUE);
-
-            $kode1710 = $this->input->post('kode1710',TRUE);
-
-            $pilihan1710 = $this->input->post('pilihan1710',TRUE);
-
-
-
-            $f1711 = $this->input->post('1711',TRUE);
-
-            $kode1711 = $this->input->post('kode1711',TRUE);
-
-            $pilihan1711 = $this->input->post('pilihan1711',TRUE);
-
-
-
-            $f1712 = $this->input->post('1712',TRUE);
-
-            $kode1712 = $this->input->post('kode1712',TRUE);
-
-            $pilihan1712 = $this->input->post('pilihan1712',TRUE);
-
-
-
-            $f1713 = $this->input->post('1713',TRUE);
-
-            $kode1713 = $this->input->post('kode1713',TRUE);
-
-            $pilihan1713 = $this->input->post('pilihan1713',TRUE);
-
-
-
-            $f1714 = $this->input->post('1714',TRUE);
-
-            $kode1714 = $this->input->post('kode1714',TRUE);
-
-            $pilihan1714 = $this->input->post('pilihan1714',TRUE);
-
-
-
-            $f1715 = $this->input->post('1715',TRUE);
-
-            $kode1715 = $this->input->post('kode1715',TRUE);
-
-            $pilihan1715 = $this->input->post('pilihan1715',TRUE);
-
-
-
-            $f1716 = $this->input->post('1716',TRUE);
-
-            $kode1716 = $this->input->post('kode1716',TRUE);
-
-            $pilihan1716 = $this->input->post('pilihan1716',TRUE);
-
-
-
-            $f1717 = $this->input->post('1717',TRUE);
-
-            $kode1717 = $this->input->post('kode1717',TRUE);
-
-            $pilihan1717 = $this->input->post('pilihan1717',TRUE);
-
-
-
-            $f1718 = $this->input->post('1718',TRUE);
-
-            $kode1718 = $this->input->post('kode1718',TRUE);
-
-            $pilihan1718 = $this->input->post('pilihan1718',TRUE);
-
-
-
-            $f1719 = $this->input->post('1719',TRUE);
-
-            $kode1719 = $this->input->post('kode1719',TRUE);
-
-            $pilihan1719 = $this->input->post('pilihan1719',TRUE);
-
-
-
-            $f1720 = $this->input->post('1720',TRUE);
-
-            $kode1720 = $this->input->post('kode1720',TRUE);
-
-            $pilihan1720 = $this->input->post('pilihan1720',TRUE);
-
-
-
-            $f1721 = $this->input->post('1721',TRUE);
-
-            $kode1721 = $this->input->post('kode1721',TRUE);
-
-            $pilihan1721 = $this->input->post('pilihan1721',TRUE);
-
-
-
-            $f1722 = $this->input->post('1722',TRUE);
-
-            $kode1722 = $this->input->post('kode1722',TRUE);
-
-            $pilihan1722 = $this->input->post('pilihan1722',TRUE);
-
-
-
-            $f1723 = $this->input->post('1723',TRUE);
-
-            $kode1723 = $this->input->post('kode1723',TRUE);
-
-            $pilihan1723 = $this->input->post('pilihan1723',TRUE);
-
-
-
-            $f1724 = $this->input->post('1724',TRUE);
-
-            $kode1724 = $this->input->post('kode1724',TRUE);
-
-            $pilihan1724 = $this->input->post('pilihan1724',TRUE);
-
-
+            for ($i=0; $i < 8 ; $i++) { // F2
+                $value = $this->input->post('2'.$i, TRUE);
+                if($value != null){
+                $data = array(
+                    'kode_kuis' =>'2',
+                    'kode_pilihan' => $i, 
+                    'nilai' => $value, 'id_biodata' => $id,
+                    'CreatedDate' => date("Y-m-d H:i:s"));
+
+                $this->Crud_model->insert("responden", $data);
+                }
+            }
 
             $f1737A = $this->input->post('1737A',TRUE);
 
@@ -569,386 +329,38 @@ class Kuis extends CI_Controller
             $kode1738A = $this->input->post('kode1738A',TRUE);
 
             $pilihan1738A = $this->input->post('pilihan1738A',TRUE);
-
-
-
-            $f1725 = $this->input->post('1725',TRUE);
-
-            $kode1725 = $this->input->post('kode1725',TRUE);
-
-            $pilihan1725 = $this->input->post('pilihan1725',TRUE);
-
-
-
-            $f1726 = $this->input->post('1726',TRUE);
-
-            $kode1726 = $this->input->post('kode1726',TRUE);
-
-            $pilihan1726 = $this->input->post('pilihan1726',TRUE);
-
-
-
-            $f1727 = $this->input->post('1727',TRUE);
-
-            $kode1727 = $this->input->post('kode1727',TRUE);
-
-            $pilihan1727 = $this->input->post('pilihan1727',TRUE);
-
-
-
-            $f1728 = $this->input->post('1728',TRUE);
-
-            $kode1728 = $this->input->post('kode1728',TRUE);
-
-            $pilihan1728 = $this->input->post('pilihan1728',TRUE);
-
-
-
-            $f1729 = $this->input->post('1729',TRUE);
-
-            $kode1729 = $this->input->post('kode1729',TRUE);
-
-            $pilihan1729 = $this->input->post('pilihan1729',TRUE);
-
-
-
-            $f1730 = $this->input->post('1730',TRUE);
-
-            $kode1730 = $this->input->post('kode1730',TRUE);
-
-            $pilihan1730 = $this->input->post('pilihan1730',TRUE);
-
-
-
-            $f1731 = $this->input->post('1731',TRUE);
-
-            $kode1731 = $this->input->post('kode1731',TRUE);
-
-            $pilihan1731 = $this->input->post('pilihan1731',TRUE);
-
-
-
-            $f1732 = $this->input->post('1732',TRUE);
-
-            $kode1732 = $this->input->post('kode1732',TRUE);
-
-            $pilihan1732 = $this->input->post('pilihan1732',TRUE);
-
-
-
-            $f1733 = $this->input->post('1733',TRUE);
-
-            $kode1733 = $this->input->post('kode1733',TRUE);
-
-            $pilihan1733 = $this->input->post('pilihan1733',TRUE);
-
-
-
-            $f1734 = $this->input->post('1734',TRUE);
-
-            $kode1734 = $this->input->post('kode1734',TRUE);
-
-            $pilihan1734 = $this->input->post('pilihan1734',TRUE);
-
-
-
-            $f1735 = $this->input->post('1735',TRUE);
-
-            $kode1735 = $this->input->post('kode1735',TRUE);
-
-            $pilihan1735 = $this->input->post('pilihan1735',TRUE);
-
-
-
-            $f1736 = $this->input->post('1736',TRUE);
-
-            $kode1736 = $this->input->post('kode1736',TRUE);
-
-            $pilihan1736 = $this->input->post('pilihan1736',TRUE);
-
-
-
-            $f1737 = $this->input->post('1737',TRUE);
-
-            $kode1737 = $this->input->post('kode1737',TRUE);
-
-            $pilihan1737 = $this->input->post('pilihan1737',TRUE);
-
-
-
-            $f1738 = $this->input->post('1738',TRUE);
-
-            $kode1738 = $this->input->post('kode1738',TRUE);
-
-            $pilihan1738 = $this->input->post('pilihan1738',TRUE);
-
-
-
-            $f1739 = $this->input->post('1739',TRUE);
-
-            $kode1739 = $this->input->post('kode1739',TRUE);
-
-            $pilihan1739 = $this->input->post('pilihan1739',TRUE);
-
-
-
-            $f1740 = $this->input->post('1740',TRUE);
-
-            $kode1740 = $this->input->post('kode1740',TRUE);
-
-            $pilihan1740 = $this->input->post('pilihan1740',TRUE);
-
-
-
-            $f1741 = $this->input->post('1741',TRUE);
-
-            $kode1741 = $this->input->post('kode1741',TRUE);
-
-            $pilihan1741 = $this->input->post('pilihan1741',TRUE);
-
-
-
-            $f1742 = $this->input->post('1742',TRUE);
-
-            $kode1742 = $this->input->post('kode1742',TRUE);
-
-            $pilihan1742 = $this->input->post('pilihan1742',TRUE);
-
-
-
-            $f1743 = $this->input->post('1743',TRUE);
-
-            $kode1743 = $this->input->post('kode1743',TRUE);
-
-            $pilihan1743 = $this->input->post('pilihan1743',TRUE);
-
-
-
-            $f1744 = $this->input->post('1744',TRUE);
-
-            $kode1744 = $this->input->post('kode1744',TRUE);
-
-            $pilihan1744 = $this->input->post('pilihan1744',TRUE);
-
-
-
-            $f1745 = $this->input->post('1745',TRUE);
-
-            $kode1745 = $this->input->post('kode1745',TRUE);
-
-            $pilihan1745 = $this->input->post('pilihan1745',TRUE);
-
-
-
-            $f1746 = $this->input->post('1746',TRUE);
-
-            $kode1746 = $this->input->post('kode1746',TRUE);
-
-            $pilihan1746 = $this->input->post('pilihan1746',TRUE);
-
-
-
-            $f1747 = $this->input->post('1747',TRUE);
-
-            $kode1747 = $this->input->post('kode1747',TRUE);
-
-            $pilihan1747 = $this->input->post('pilihan1747',TRUE);
-
-
-
-            $f1748 = $this->input->post('1748',TRUE);
-
-            $kode1748 = $this->input->post('kode1748',TRUE);
-
-            $pilihan1748 = $this->input->post('pilihan1748',TRUE);
-
-
-
-            $f1749 = $this->input->post('1749',TRUE);
-
-            $kode1749 = $this->input->post('kode1749',TRUE);
-
-            $pilihan1749 = $this->input->post('pilihan1749',TRUE);
-
-
-
-            $f1750 = $this->input->post('1750',TRUE);
-
-            $kode1750 = $this->input->post('kode1750',TRUE);
-
-            $pilihan1750 = $this->input->post('pilihan1750',TRUE);
-
-
-
-            $f1751 = $this->input->post('1751',TRUE);
-
-            $kode1751 = $this->input->post('kode1751',TRUE);
-
-            $pilihan1751 = $this->input->post('pilihan1751',TRUE);
-
-
-
-            $f1752 = $this->input->post('1752',TRUE);
-
-            $kode1752 = $this->input->post('kode1752',TRUE);
-
-            $pilihan1752 = $this->input->post('pilihan1752',TRUE);
-
-
-
-            $f1753 = $this->input->post('1753',TRUE);
-
-            $kode1753 = $this->input->post('kode1753',TRUE);
-
-            $pilihan1753 = $this->input->post('pilihan1753',TRUE);
-
-
-
-            $f1754 = $this->input->post('1754',TRUE);
-
-            $kode1754 = $this->input->post('kode1754',TRUE);
-
-            $pilihan1754 = $this->input->post('pilihan1754',TRUE);
-
-
-
-            $a171 = array('kode_kuis' => $kode171,'kode_pilihan' => $pilihan171, 'nilai' => $f171, 'id_biodata' => $id);
-
-            $a172 = array('kode_kuis' => $kode172,'kode_pilihan' => $pilihan172, 'nilai' => $f172,'id_biodata' => $id);
-
-            $a173 = array('kode_kuis' => $kode173,'kode_pilihan' => $pilihan173, 'nilai' => $f173,'id_biodata' => $id);
-
-            $a174 = array('kode_kuis' => $kode174,'kode_pilihan' => $pilihan174, 'nilai' => $f174, 'id_biodata' => $id);
-
-            $a175 = array('kode_kuis' => $kode175,'kode_pilihan' => $pilihan175, 'nilai' => $f175,'id_biodata' => $id);
-
-            $a176 = array('kode_kuis' => $kode176,'kode_pilihan' => $pilihan176, 'nilai' => $f176, 'id_biodata' => $id);
-
-            $a177 = array('kode_kuis' => $kode177,'kode_pilihan' => $pilihan177, 'nilai' => $f177, 'id_biodata' => $id );
-
-            $a178 = array('kode_kuis' => $kode178,'kode_pilihan' => $pilihan178, 'nilai' => $f178, 'id_biodata' => $id);
-
-            $a179 = array('kode_kuis' => $kode179,'kode_pilihan' => $pilihan179, 'nilai' => $f179,  'id_biodata' => $id);
-
-            $a1710 = array('kode_kuis' => $kode1710,'kode_pilihan' => $pilihan1710, 'nilai' => $f1710,  'id_biodata' => $id);
-
-            $a1711 = array('kode_kuis' => $kode1711,'kode_pilihan' => $pilihan1711, 'nilai' => $f1711, 'id_biodata' => $id);
-
-            $a1712 = array('kode_kuis' => $kode1712,'kode_pilihan' => $pilihan1712, 'nilai' => $f1712,  'id_biodata' => $id);
-
-            $a1713 = array('kode_kuis' => $kode1713,'kode_pilihan' => $pilihan1713, 'nilai' => $f1713, 'id_biodata' => $id);
-
-            $a1714 = array('kode_kuis' => $kode1714,'kode_pilihan' => $pilihan1714, 'nilai' => $f1714,  'id_biodata' => $id);
-
-            $a1715 = array('kode_kuis' => $kode1715,'kode_pilihan' => $pilihan1715, 'nilai' => $f1715,  'id_biodata' => $id);
-
-            $a1716 = array('kode_kuis' => $kode1716,'kode_pilihan' => $pilihan1716, 'nilai' => $f1716, 'id_biodata' => $id);
-
-            $a1717 = array('kode_kuis' => $kode1717,'kode_pilihan' => $pilihan1717, 'nilai' => $f1717,  'id_biodata' => $id);
-
-            $a1718 = array('kode_kuis' => $kode1718,'kode_pilihan' => $pilihan1718, 'nilai' => $f1718, 'id_biodata' => $id);
-
-            $a1719 = array('kode_kuis' => $kode1719,'kode_pilihan' => $pilihan1719, 'nilai' => $f1719, 'id_biodata' => $id);
-
-            $a1720 = array('kode_kuis' => $kode1720,'kode_pilihan' => $pilihan1720, 'nilai' => $f1720, 'id_biodata' => $id);
-
-            $a1721 = array('kode_kuis' => $kode1721,'kode_pilihan' => $pilihan1721, 'nilai' => $f1721,  'id_biodata' => $id);
-
-            $a1722 = array('kode_kuis' => $kode1722,'kode_pilihan' => $pilihan1722, 'nilai' => $f1722,  'id_biodata' => $id);
-
-            $a1723 = array('kode_kuis' => $kode1723,'kode_pilihan' => $pilihan1723, 'nilai' => $f1723,  'id_biodata' => $id);
-
-            $a1724 = array('kode_kuis' => $kode1724,'kode_pilihan' => $pilihan1724, 'nilai' => $f1724, 'id_biodata' => $id);
-
-            $a1725 = array('kode_kuis' => $kode1725,'kode_pilihan' => $pilihan1725, 'nilai' => $f1725, 'id_biodata' => $id);
-
-            $a1726 = array('kode_kuis' => $kode1726,'kode_pilihan' => $pilihan1726, 'nilai' => $f1726, 'id_biodata' => $id);
-
-            $a1727 = array('kode_kuis' => $kode1727,'kode_pilihan' => $pilihan1727, 'nilai' => $f1727, 'id_biodata' => $id);
-
-            $a1728 = array('kode_kuis' => $kode1728,'kode_pilihan' => $pilihan1728, 'nilai' => $f1728,  'id_biodata' => $id);
-
-            $a1729 = array('kode_kuis' => $kode1729,'kode_pilihan' => $pilihan1729, 'nilai' => $f1729,  'id_biodata' => $id);
-
-            $a1730 = array('kode_kuis' => $kode1730,'kode_pilihan' => $pilihan1730, 'nilai' => $f1730, 'id_biodata' => $id);
-
-            $a1731 = array('kode_kuis' => $kode1731,'kode_pilihan' => $pilihan1731, 'nilai' => $f1731, 'id_biodata' => $id);
-
-            $a1732 = array('kode_kuis' => $kode1732,'kode_pilihan' => $pilihan1732, 'nilai' => $f1732,  'id_biodata' => $id);
-
-            $a1733 = array('kode_kuis' => $kode1733,'kode_pilihan' => $pilihan1733, 'nilai' => $f1733, 'id_biodata' => $id);
-
-            $a1734 = array('kode_kuis' => $kode1734,'kode_pilihan' => $pilihan1734, 'nilai' => $f1734,  'id_biodata' => $id);
-
-            $a1735 = array('kode_kuis' => $kode1735,'kode_pilihan' => $pilihan1735, 'nilai' => $f1735,  'id_biodata' => $id);
-
-            $a1736 = array('kode_kuis' => $kode1736,'kode_pilihan' => $pilihan1736, 'nilai' => $f1736,  'id_biodata' => $id);
-
-            $a1737 = array('kode_kuis' => $kode1737,'kode_pilihan' => $pilihan1737, 'nilai' => $f1737,  'id_biodata' => $id); 
-
-            $a1738 = array('kode_kuis' => $kode1738,'kode_pilihan' => $pilihan1738, 'nilai' => $f1738,  'id_biodata' => $id);
-
-            $a1739 = array('kode_kuis' => $kode1739,'kode_pilihan' => $pilihan1739, 'nilai' => $f1739,  'id_biodata' => $id);
-
-            $a1740 = array('kode_kuis' => $kode1740,'kode_pilihan' => $pilihan1740, 'nilai' => $f1740,  'id_biodata' => $id);
-
-            $a1741 = array('kode_kuis' => $kode1741,'kode_pilihan' => $pilihan1741, 'nilai' => $f1741,  'id_biodata' => $id);
-
-            $a1742 = array('kode_kuis' => $kode1742,'kode_pilihan' => $pilihan1742, 'nilai' => $f1742,  'id_biodata' => $id);
-
-            $a1743 = array('kode_kuis' => $kode1743,'kode_pilihan' => $pilihan1743, 'nilai' => $f1743, 'id_biodata' => $id);
-
-            $a1744 = array('kode_kuis' => $kode1744,'kode_pilihan' => $pilihan1744, 'nilai' => $f1744, 'id_biodata' => $id);
-
-            $a1745 = array('kode_kuis' => $kode1745,'kode_pilihan' => $pilihan1745, 'nilai' => $f1745, 'id_biodata' => $id);
-
-            $a1746 = array('kode_kuis' => $kode1746,'kode_pilihan' => $pilihan1746, 'nilai' => $f1746, 'id_biodata' => $id);
-
-            $a1747 = array('kode_kuis' => $kode1747,'kode_pilihan' => $pilihan1747, 'nilai' => $f1747,  'id_biodata' => $id);
-
-            $a1748 = array('kode_kuis' => $kode1748,'kode_pilihan' => $pilihan1748, 'nilai' => $f1748,  'id_biodata' => $id);
-
-            $a1749 = array('kode_kuis' => $kode1749,'kode_pilihan' => $pilihan1749, 'nilai' => $f1749,  'id_biodata' => $id);
-
-            $a1737A = array('kode_kuis' => $kode1737A,'kode_pilihan' => $pilihan1737A, 'nilai' => $f1737A,  'id_biodata' => $id);
-
-            $a1738A = array('kode_kuis' => $kode1738A,'kode_pilihan' => $pilihan1738A, 'nilai' => $f1738A,  'id_biodata' => $id);
-
-            $a1750 = array('kode_kuis' => $kode1750,'kode_pilihan' => $pilihan1750, 'nilai' => $f1750,  'id_biodata' => $id);
-
-            $a1751 = array('kode_kuis' => $kode1751,'kode_pilihan' => $pilihan1751, 'nilai' => $f1751, 'id_biodata' => $id);
-
-            $a1752 = array('kode_kuis' => $kode1752,'kode_pilihan' => $pilihan1752, 'nilai' => $f1752,  'id_biodata' => $id);
-
-            $a1753 = array('kode_kuis' => $kode1753,'kode_pilihan' => $pilihan1753, 'nilai' => $f1753,  'id_biodata' => $id);
-
-            $a1754 = array('kode_kuis' => $kode1754,'kode_pilihan' => $pilihan1754, 'nilai' => $f1754, 'id_biodata' => $id);
-
-
-
-            $multi = array( $a21, $a22, $a23, $a24, $a25, $a26, $a27,
-
-                $a171, $a172, $a173, $a174, $a175, $a176,
-
-                $a177, $a178, $a179, $a1710, $a1711, $a1712,
-
-                $a1713, $a1714, $a1715, $a1716, $a1717, $a1718,
-
-                $a1719, $a1720, $a1721, $a1722, $a1723, $a1724,
-
-                $a1725, $a1726, $a1727, $a1728, $a1729, $a1730,
-
-                $a1731, $a1732, $a1733, $a1734, $a1735, $a1736,
-
-                $a1737, $a1738, $a1737A, $a1738A, $a1739, $a1740, $a1741, $a1742,
-
-                $a1743, $a1744, $a1745, $a1746, $a1747, $a1748,
-
-                $a1749, $a1750, $a1751, $a1752, $a1753, $a1754,
-
-                );
-
-
+            if($f1737A != null){
+            $data = array('kode_kuis' => $kode1737A,
+                            'kode_pilihan' => $pilihan1737A, 
+                            'nilai' => $f1737A,  
+                            'id_biodata' => $id,
+                            'CreatedDate' => date("Y-m-d H:i:s"));
+            $this->Crud_model->insert("responden", $data);
+            }
+
+            if($f1738A != null){
+            $data = array('kode_kuis' => $kode1738A,
+                            'kode_pilihan' => $pilihan1738A, 
+                            'nilai' => $f1738A,  
+                            'id_biodata' => $id,
+                            'CreatedDate' => date("Y-m-d H:i:s"));
+            $this->Crud_model->insert("responden", $data);
+            }
+
+            for ($i=0; $i < 55; $i++) { //F17
+                $f = $this->input->post('pilihan17'.$i, TRUE);
+                $value = $this->input->post('17'.$i, TRUE);
+                $kode = $this->input->post('kode17'.$i,TRUE);
+                if($value != null){
+                $data = array(
+                    'kode_kuis' =>$kode,
+                    'kode_pilihan' =>$f, 
+                    'nilai' => $value, 'id_biodata' => $id,
+                    'CreatedDate' => date("Y-m-d H:i:s") );
+
+                $this->Crud_model->insert("responden", $data);
+                }
+            }
 
             $f3 = $this->input->post('3',TRUE);
 
@@ -1574,11 +986,11 @@ class Kuis extends CI_Controller
 
             redirect(site_url('home'));
 
-        // } else {
+        } else {
 
-        //       $this->edit($this->input->post('id', TRUE));
+              $this->edit($this->input->post('id', TRUE));
 
-        // }
+        }
 
     }
 
@@ -1592,7 +1004,7 @@ class Kuis extends CI_Controller
 
 
 
-        $dat = $this->Biodata_model->get_by_id($id);
+        $user = $this->Biodata_model->get_by_id($id);
 
         $row = $this->Identitas_model->tabel('t_kuis');
 
@@ -1624,7 +1036,7 @@ class Kuis extends CI_Controller
 
         $pdf->WriteHTML($html);
 
-        $pdf->Output('Kuesioner-'.$dat->nim.'.pdf', 'D'); 
+        $pdf->Output('Kuesioner-'.$user->nim.'.pdf', 'D'); 
 
     }
 
@@ -1641,218 +1053,6 @@ class Kuis extends CI_Controller
     $this->form_validation->set_rules('no_hp', 'no hp', 'trim|required');
 
     $this->form_validation->set_rules('email', 'email', 'trim|required');
-
-
-
-    // $this->form_validation->set_rules('21', 'F2-1', 'trim|required');
-
-    // $this->form_validation->set_rules('22', 'F2-2', 'trim|required');
-
-    // $this->form_validation->set_rules('23', 'F2-3', 'trim|required');
-
-    // $this->form_validation->set_rules('24', 'F2-4', 'trim|required');
-
-    // $this->form_validation->set_rules('25', 'F2-5', 'trim|required');
-
-    // $this->form_validation->set_rules('26', 'F2-6', 'trim|required');
-
-    // $this->form_validation->set_rules('27', 'F2-7', 'trim|required');
-
-
-
-    // $this->form_validation->set_rules('3', 'F3', 'trim|required');
-
-    // $this->form_validation->set_rules('8', 'F8', 'trim|required');
-
-
-
-    // $this->form_validation->set_rules('171', 'F17-1', 'trim|required');
-
-    // $this->form_validation->set_rules('172', 'F17-2', 'trim|required');
-
-    // $this->form_validation->set_rules('173', 'F17-3', 'trim|required');
-
-    // $this->form_validation->set_rules('174', 'F17-4', 'trim|required');
-
-    // $this->form_validation->set_rules('175', 'F17-5', 'trim|required');
-
-    // $this->form_validation->set_rules('176', 'F17-6', 'trim|required');
-
-    // $this->form_validation->set_rules('177', 'F17-7', 'trim|required');
-
-    // $this->form_validation->set_rules('178', 'F17-8', 'trim|required');
-
-    // $this->form_validation->set_rules('179', 'F17-9', 'trim|required');
-
-    // $this->form_validation->set_rules('1710', 'F17-10', 'trim|required');
-
-    // $this->form_validation->set_rules('1711', 'F17-11', 'trim|required');
-
-    // $this->form_validation->set_rules('1712', 'F17-12', 'trim|required');
-
-    // $this->form_validation->set_rules('1713', 'F17-13', 'trim|required');
-
-    // $this->form_validation->set_rules('1714', 'F17-14', 'trim|required');
-
-    // $this->form_validation->set_rules('1715', 'F17-15', 'trim|required');
-
-    // $this->form_validation->set_rules('1716', 'F17-16', 'trim|required');
-
-    // $this->form_validation->set_rules('1717', 'F17-17', 'trim|required');
-
-    // $this->form_validation->set_rules('1718', 'F17-18', 'trim|required');
-
-    // $this->form_validation->set_rules('1719', 'F17-19', 'trim|required');
-
-    // $this->form_validation->set_rules('1720', 'F17-20', 'trim|required');
-
-    // $this->form_validation->set_rules('1721', 'F17-21', 'trim|required');
-
-    // $this->form_validation->set_rules('1722', 'F17-22', 'trim|required');
-
-    // $this->form_validation->set_rules('1723', 'F17-23', 'trim|required');
-
-    // $this->form_validation->set_rules('1724', 'F17-24', 'trim|required');
-
-    // $this->form_validation->set_rules('1725', 'F17-25', 'trim|required');
-
-    // $this->form_validation->set_rules('1726', 'F17-26', 'trim|required');
-
-    // $this->form_validation->set_rules('1727', 'F17-27', 'trim|required');
-
-    // $this->form_validation->set_rules('1728', 'F17-28', 'trim|required');
-
-    // $this->form_validation->set_rules('1729', 'F17-29', 'trim|required');
-
-    // $this->form_validation->set_rules('1730', 'F17-30', 'trim|required');
-
-    // $this->form_validation->set_rules('1731', 'F17-31', 'trim|required');
-
-    // $this->form_validation->set_rules('1732', 'F17-32', 'trim|required');
-
-    // $this->form_validation->set_rules('1733', 'F17-33', 'trim|required');
-
-    // $this->form_validation->set_rules('1734', 'F17-34', 'trim|required');
-
-    // $this->form_validation->set_rules('1735', 'F17-35', 'trim|required');
-
-    // $this->form_validation->set_rules('1736', 'F17-36', 'trim|required');
-
-    // $this->form_validation->set_rules('1737A', 'F17-37A', 'trim|required');
-
-    // $this->form_validation->set_rules('1738A', 'F17-38A', 'trim|required');
-
-    // $this->form_validation->set_rules('1737', 'F17-37', 'trim|required');
-
-    // $this->form_validation->set_rules('1738', 'F17-38', 'trim|required');
-
-    // $this->form_validation->set_rules('1739', 'F17-39', 'trim|required');
-
-    // $this->form_validation->set_rules('1740', 'F17-40', 'trim|required');
-
-    // $this->form_validation->set_rules('1741', 'F17-41', 'trim|required');
-
-    // $this->form_validation->set_rules('1742', 'F17-42', 'trim|required');
-
-    // $this->form_validation->set_rules('1743', 'F17-43', 'trim|required');
-
-    // $this->form_validation->set_rules('1744', 'F17-44', 'trim|required');
-
-    // $this->form_validation->set_rules('1745', 'F17-45', 'trim|required');
-
-    // $this->form_validation->set_rules('1746', 'F17-46', 'trim|required');
-
-    // $this->form_validation->set_rules('1747', 'F17-47', 'trim|required');
-
-    //  $this->form_validation->set_rules('1743', 'F17-48', 'trim|required');
-
-    // $this->form_validation->set_rules('1749', 'F17-49', 'trim|required');
-
-    // $this->form_validation->set_rules('1750', 'F17-50', 'trim|required');
-
-    // $this->form_validation->set_rules('1751', 'F17-51', 'trim|required');
-
-    // $this->form_validation->set_rules('1752', 'F17-52', 'trim|required');
-
-    // $this->form_validation->set_rules('1753', 'F17-53', 'trim|required');
-
-    // $this->form_validation->set_rules('1754', 'F17-54', 'trim|required');
-
-    
-
-    // $this->form_validation->set_rules('id', 'id', 'trim');
-
-    // $this->form_validation->set_error_delimiters('<span class="text-danger"><b>', '</b></span>');
-
     }
-
-
-
-    public function rules1() //validasi (4 - 5 - 6 - 7)
-
-    {
-
-    //     $this->form_validation->set_rules('4[]', 'F4', 'trim|required');
-
-    //     $this->form_validation->set_rules('5', 'F5', 'trim|required');
-
-    //     $this->form_validation->set_rules('nilai6', 'F6', 'trim|required');
-
-    //     $this->form_validation->set_rules('nilai7', 'F7', 'trim|required');
-
-    //     $this->form_validation->set_rules('nilai7a', 'F7a', 'trim|required');
-
-
-
-    //     $this->form_validation->set_rules('id', 'id', 'trim');
-
-    // $this->form_validation->set_error_delimiters('<span class="text-danger"><b>', '</b></span>');
-
-    }
-
-
-
-    public function rules2() //validasi (9 - 10)
-
-    {
-
-    //     $this->form_validation->set_rules('9[]', 'F9', 'trim|required');
-
-    //     $this->form_validation->set_rules('10', 'F10', 'trim|required');
-
-
-
-    //     $this->form_validation->set_rules('id', 'id', 'trim');
-
-    // $this->form_validation->set_error_delimiters('<span class="text-danger"><b>', '</b></span>');
-
-    }
-
-
-
-    public function rules3() //validasi (11 - 12 - 13 - 14 - 15 - 16)
-
-    {
-
-    //     $this->form_validation->set_rules('11', 'F11', 'trim|required');
-
-    //     $this->form_validation->set_rules('12', 'F12', 'trim|required');
-
-    //     $this->form_validation->set_rules('nilai13[]', 'F13', 'trim|required');
-
-    //     $this->form_validation->set_rules('14', 'F14', 'trim|required');
-
-    //     $this->form_validation->set_rules('15', 'F15', 'trim|required');
-
-    //     $this->form_validation->set_rules('16[]', 'F16', 'trim|required');
-
-
-
-    //     $this->form_validation->set_rules('id', 'id', 'trim');
-
-    // $this->form_validation->set_error_delimiters('<span class="text-danger"><b>', '</b></span>');
-
-    }
-
  }
 

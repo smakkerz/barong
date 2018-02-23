@@ -135,7 +135,7 @@ class Home extends CI_Controller
                 'nama' => $row->nama,
                 'password' => set_value('pass')
                 );
-            $this->template->load('template', 'reset_password', $data);
+            $this->template->load('template', 'User/reset_password', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('home'));
