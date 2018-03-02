@@ -58,7 +58,7 @@
 					<a href="<?= base_url('home') ?>" class="navbar-brand">
 						<small>
 							<img src="<?php echo base_url(); ?>library/assets/images/ucac.jpg" class="img-circle" width="28px">
-							Tracer Universitas Semarang 
+							<?= $this->settingvalue_library->Getvalue("Name")->Value ?>
 						</small>
 					</a>
 				</div>
@@ -95,7 +95,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="<?= base_url('home/logout') ?>">
+									<a href="<?= base_url('login/logout') ?>">
 										<i class="ace-icon fa fa-power-off"></i>
 										Logout
 									</a>
@@ -198,15 +198,15 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-10">
-						<a href="https://github.com/smakkerz" target="blank">
+						<!-- <a href="https://github.com/smakkerz" target="blank">
 								<i class="ace-icon fa fa-github-square light-blue  bigger-150"></i>
-							</a>
+							</a> -->
 							<a href="https://web.facebook.com/smakkerz" target="blank">
 								<i class="ace-icon fa fa-facebook-square bigger-150"></i>
 							</a>
-							<span class="blue bolder"><a href="http://sekawan.net76.net/"> 
+							<span class="blue bolder"><a href="https://sekawan.xyz/"> 
 							<i class="fa fa-trademark"></i>
-							SM4KK3RZ</a></span>  &copy; <?php echo date("Y"); ?> Tracer UCAC
+							SM4KK3RZ</a></span>  &copy; <?php echo date("Y"); ?> <?= $this->settingvalue_library->Getvalue("Company")->Value ?>
 							<a href="https://twitter.com/ucac_info" target="blank">
 								<i class="ace-icon fa fa-twitter-square orange bigger-150"></i>
 							</a>

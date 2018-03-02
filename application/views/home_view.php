@@ -9,7 +9,7 @@
                     <?php echo ucfirst($this->session->userdata('nama'));?>
                         </small>
                         <a href="<?= base_url();?>/library/Tracer-UCAC.apk" class="user-signup-link">
-                            <i style="color:green;" class="ace-icon fa fa-android"></i> Apps Beta
+                            <i style="color:green;" class="ace-icon fa fa-android"></i> Apps Android
                         </a>
                 </h1>
             </div>
@@ -186,6 +186,14 @@
                                         <span class="editable"><?= $lulus; ?></span>
                                     </div>
                             </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> Waktu Daftar </div>
+
+                                    <div class="profile-info-value">
+                                        <span class="editable"><?php $date = strtotime($CreatedDate);
+                                        echo date('d M, Y H:i', $date);?> WIB</span>
+                                    </div>
+                            </div>
                         </div>
                     </div>
                         <?php if($this->session->userdata('level')=="UCACJAYA") {?> 
@@ -194,7 +202,7 @@
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
                                     <i class="ace-icon fa fa-star orange"></i>
-                                        <b><?php echo $total ?></b> Alumnus terdaftar di Tracer UCAC
+                                        <b><?php echo $total ?></b> Alumnus terdaftar di <?= $this->settingvalue_library->Getvalue("Company")->Value ?>
                                 </h4>
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="reload">
@@ -209,7 +217,8 @@
                                 <div class="widget-main no-padding">
                                     <div class="comments ace-scroll" style="position:relative;">
                                         <div class="comments">
-                                           <?php foreach ($file as $key) { ?>
+                                           <?php foreach ($file as $key) { 
+                                            $date = strtotime($key->CreatedDate);?>
                                                 <div class="itemdiv commentdiv">
 
                                                     <div class="body">
@@ -219,7 +228,7 @@
 
                                                         <div class="time">
                                                             <i class="ace-icon fa fa-calendar-o"></i>
-                                                        <span class="green"><?=$key->tahun_lulus ?></span>
+                                                        <span class="green"><?=date('d M, Y', $date) ?></span>
                                                         </div>
                                                         <div class="text">
                                                             <i class="ace-icon fa fa-map-marker orange"></i>

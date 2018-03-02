@@ -19,31 +19,32 @@ class Kuis extends CI_Controller
         $this->settingvalue_library->production();
         $this->load->model('Identitas_model'); 
         $this->load->model('Crud_model');
-        $this->load->library('datatables');
         $this->load->model('Respon_model');      
-        $this->load->model('Kuis_model'); 
+
     }
+
+
 
     public function index()
     {
-        $this->auth->cek_akses('UCACJAYA');
-        $this->template->load('template','kuis/kuis_list');
+
+        $data = array(
+        'button' => 'Simpan',
+        );
+
+        $this->template->load('template','User/kuisioner', $data);
+
     }
 
-    public function All()
-    {
-        $this->template->load('template','kuis/kuis_list');
-    }
-    function json() {
-        header('Content-Type: application/json');
-        echo $this->Kuis_model->json();
-    }
+
 
     public function edit($id)
+
     {
+
         if($this->session->userdata('id_bio')==$id OR $this->session->userdata('level')=="UCACJAYA"){
 
-            $row = $this->Biodata_model->respon("AND b.id_biodata= ".$id)->row();
+            $row = $this->Biodata_model->respon("WHERE b.id_biodata=".$id);
 
              if ($row) {
 
@@ -230,10 +231,10 @@ class Kuis extends CI_Controller
 
 
 
-    public function create()
+    public function create($id)
 
     {
-        $id = md5($this->session->userdata('id_bio'));
+
         $row = $this->Biodata_model->get_by_id($id);
 
          if ($row) {
@@ -274,8 +275,6 @@ class Kuis extends CI_Controller
 
     }
 
-
-
     public function update_action() //fungsi validasi sebelum ditambah data
 
     {
@@ -285,7 +284,6 @@ class Kuis extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
              $this->edit($this->input->post('id', TRUE));
         } else {
-
             $Date = date("Y-m-d H:i:s");
 
             $key = 'id_biodata';
@@ -307,8 +305,20 @@ class Kuis extends CI_Controller
                 'tahun_lulus'=>$this->input->post('thn',TRUE)
 
             );
-            
-            $this->Crud_model->update("id_biodata", $id, $data_bio, 'biodata');
+			
+			$this->Crud_model->update("id_biodata", $id, $data_bio, 'biodata');
+            for ($i=1; $i < 8 ; $i++) { // F2
+                $value = $this->input->post('2'.$i, TRUE);
+                if($value != null){
+                $data = array(
+                    'kode_kuis' =>'2',
+                    'kode_pilihan' => $i, 
+                    'nilai' => $value, 'id_biodata' => $id,
+                    'CreatedDate' => $Date);
+
+                $this->Crud_model->insert("responden", $data);
+                }
+            }
 
             $f3 = $this->input->post('3',TRUE);
 
@@ -324,6 +334,7 @@ class Kuis extends CI_Controller
 
                 $nilai = $this->input->post('nilai1', TRUE) != null ? $this->input->post('nilai1', TRUE)  : "1";
 
+
             } else {
 
                 $nilai = '1';
@@ -334,219 +345,240 @@ class Kuis extends CI_Controller
             $f8 = $this->input->post('8',TRUE);
 
             $t8 = explode("-", $f8);
-            
+
+            $a3 = array('kode_kuis' => $t3[0],'kode_pilihan' => $t3[1],'nilai' => $nilai,'id_biodata' => $id, 'CreatedDate'=>$Date);
+			if($t3[0] != null && $t3[1] != null){
+            $this->Crud_model->insert("responden", $a3);
+			}
+            $a8 = array('kode_kuis' => $t8[0],'kode_pilihan' => $t8[1],'nilai' => '1','id_biodata' => $id, 'CreatedDate'=> $Date);
+			if($t8[0] != null){
+            $this->Crud_model->insert("responden", $a8);
+			}
             $f4 = $this->input->post('4',TRUE);
-                    
-            $f5 = $this->input->post('5',TRUE);
 
-            $t5 = explode("-", $f5);
+                    $r4 = array();
+					if($f4 != null){
+                        foreach ($f4 as $key4) {
 
-            if($t5[1] == '01'){
-
-                $nilai5 = $this->input->post('nilai2', TRUE) != null ? $this->input->post('nilai2', TRUE) : "1";
-
-            } else {
-
-                $nilai5 = $this->input->post('nilai3', TRUE) != null ? $this->input->post('nilai3', TRUE) : "1";
-            }
-
-            $f6 = $this->input->post('6',TRUE);
-
-            $t6 = explode("-", $f6);
-
-            $nilai6 = $this->input->post('nilai6',TRUE);
-            
-            $f7 = $this->input->post('7',TRUE);
-
-            $t7 = explode("-", $f7);
-
-            $nilai7 = $this->input->post('nilai7',TRUE);
-            
-            $f7a = $this->input->post('7a',TRUE);
-
-            $t7a = explode("-", $f7a);
-
-            $nilai7a = $this->input->post('nilai7a',TRUE);
-
-            $f9 = $this->input->post('9',TRUE);
-            $f10 = $this->input->post('10',TRUE);
-
-            $f1737A = $this->input->post('1737A',TRUE);
-            $kode1737A = $this->input->post('kode1737A',TRUE);
-            $pilihan1737A = $this->input->post('pilihan1737A',TRUE);
-
-            $f1738A = $this->input->post('1738A',TRUE);
-            $kode1738A = $this->input->post('kode1738A',TRUE);
-            $pilihan1738A = $this->input->post('pilihan1738A',TRUE);
-
-                    #region INSERT
-                    //--------  INSERT   --------------//
-            for ($i=1; $i < 8 ; $i++) { // F2
-                $value = $this->input->post('2'.$i, TRUE);
-                if($value != null){
-                $data = array(
-                    'kode_kuis' =>'2',
-                    'kode_pilihan' => $i, 
-                    'nilai' => $value, 'id_biodata' => $id,
-                    'CreatedDate' => $Date);
-
-                $this->Crud_model->insert("responden", $data);
-                }
-            }
-
-            if($t3 != null){
-                $a3 = array('kode_kuis' => $t3[0],'kode_pilihan' => $t3[1],'nilai' => $nilai,'id_biodata' => $id, 'CreatedDate'=>$Date);
-                $this->Crud_model->insert("responden", $a3);
-            }
-                    
-            if($f4 != null){
-                foreach ($f4 as $key4 => $val) {
-                    $t4 = explode("-", $f4[$key4]);
-                        if($t4[0] != null && $t4[1] != null){
+                            $t4 = explode("-", $f4[$key4]);
+							if($t4[0] != null && $t4[1] != null){
                             $a4 = array(
-                                'kode_kuis' => $t4[0],
+
+                                'kode_kuis' => 'f4',
                                 'kode_pilihan' => $t4[1],
                                 'nilai' => '1',
                                 'id_biodata' => $id,
                                 'CreatedDate'=> $Date
                                 );
-                            $this->Crud_model->insert('responden', $a4);
-                            }
+							$this->Crud_model->insert('responden', $a4);
+							}
                         }
+
+                            //$this->Crud_model->batch("responden", $r4);
+					}
+
+
+            $f5 = $this->input->post('5',TRUE);
+
+                    $t5 = explode("-", $f5);
+
+                    if($t5[1] == '01'){
+
+                        $nilai5 = $this->input->post('nilai2', TRUE) != null ? $this->input->post('nilai2', TRUE) : "1";
+
+                    } else {
+
+                        $nilai5 = $this->input->post('nilai3', TRUE) != null ? $this->input->post('nilai3', TRUE) : "1";
+                    }
+			if($t5[0] != null && $t5[1] != null){
+            $a5 = array('kode_kuis' => $t5[0],'kode_pilihan' => $t5[1],'nilai' => $nilai5,'id_biodata' => $id, 'CreatedDate'=> $Date);
+            $this->Crud_model->insert("responden", $a5);
+			}
+            $f6 = $this->input->post('6',TRUE);
+
+                    $t6 = explode("-", $f6);
+
+                    $nilai6 = $this->input->post('nilai6',TRUE);
+
+                
+
+                    $f7 = $this->input->post('7',TRUE);
+
+                    $t7 = explode("-", $f7);
+
+                    $nilai7 = $this->input->post('nilai7',TRUE);
+
+
+
+                    $f7a = $this->input->post('7a',TRUE);
+
+                    $t7a = explode("-", $f7a);
+
+                    $nilai7a = $this->input->post('nilai7a',TRUE);
+
+                    if($nilai6 != null && $nilai6 > 0){
+                        $a6 = array('kode_kuis' => $t6[0],'kode_pilihan' => $t6[1],'nilai' => $nilai6,'id_biodata' => $id, 'CreatedDate'=> $Date);
+                        $this->Crud_model->insert("responden", $a6);
                     }
 
-            if($t5 != null){
-                $a5 = array('kode_kuis' => $t5[0],'kode_pilihan' => $t5[1],'nilai' => $nilai5,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a5);
-            }
-            
-            if($nilai6 != null && $nilai6 > 0){
-                $a6 = array('kode_kuis' => $t6[0],'kode_pilihan' => $t6[1],'nilai' => $nilai6,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a6);
-            }
 
-            if($nilai7 != null && $nilai7 > 0){
-                $a7 = array('kode_kuis' => $t7[0],'kode_pilihan' => $t7[1],'nilai' => $nilai7,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a7);
-            }
-                    
-            if($nilai7a != null && $nilai7a > 0){
-                $a7a = array('kode_kuis' => $t7a[0],'kode_pilihan' => $t7a[1],'nilai' => $nilai7a,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a7a);
-            }
-                    
-            if($t8 != null){
-                $a8 = array('kode_kuis' => $t8[0],'kode_pilihan' => $t8[1],'nilai' => '1','id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a8);
-            }
-            
-            if($f9 != null){
-                foreach ($f9 as $key9 => $val) {
-                    $t9 = explode("-", $f9[$key9]);
-                        if($t9 != null ) {
-                            $a9 = array(
+                    if($nilai7 != null && $nilai7 > 0){
+                        $a7 = array('kode_kuis' => $t7[0],'kode_pilihan' => $t7[1],'nilai' => $nilai7,'id_biodata' => $id, 'CreatedDate'=> $Date);
+                        $this->Crud_model->insert("responden", $a7);
+                    }
+                    if($nilai7a != null && $nilai7a > 0){
+                        $a7a = array('kode_kuis' => $t7a[0],'kode_pilihan' => $t7a[1],'nilai' => $nilai7a,'id_biodata' => $id, 'CreatedDate'=> $Date);
+                        $this->Crud_model->insert("responden", $a7a);
+                    }
+                    $f9 = $this->input->post('9',TRUE);
+                            $r9 = array();
+                            if($f9 != null){
+                            foreach ($f9 as $key9 => $val) {
+
+                                $t9 = explode("-", $f9[$key9]);
+								if($t9[0] != null && $t9[1] != null) {
+                                $a9 = array(
+
                                     'kode_kuis' => $t9[0],
+
                                     'kode_pilihan' => $t9[1],
+
                                     'nilai' => '1',
+
                                     'id_biodata' => $id,
                                     'CreatedDate' => $Date
                                     );
+								
                             $this->Crud_model->insert("responden",$a9);
+							}
+                            }
                         }
-                    }
-            }
 
-            if($f10 != null){
-                $t10 = explode("-", $f10);
-                $a10 = array('kode_kuis' => $t10[0],'kode_pilihan' => $t10[1],
+                        $f10 = $this->input->post('10',TRUE);
+
+                        if($f10 != null){
+                            $t10 = explode("-", $f10);
+                            $a10 = array('kode_kuis' => $t10[0],'kode_pilihan' => $t10[1],
                                 'nilai' => '1','id_biodata' => $id, 'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $a10);
-            }
-                        #F-11 sampai F-16
-            for ($i=0; $i < 7; $i++) { //F11-16
-                $value = $this->input->post('1'.$i, TRUE);
+                            $this->Crud_model->insert("responden", $a10);
+                        }
 
-                if($value != null && $i != 3 && $i != 6){
-                $val = explode("-", $value);
-                $data = array('kode_kuis' => $val[0],
+                        #F-11 sampai F-16
+                    for ($i=0; $i < 7; $i++) { //F11-16
+                        $value = $this->input->post('1'.$i, TRUE);
+
+                        if($value != null && $i != 3 && $i != 6){
+                        $val = explode("-", $value);
+                        $data = array('kode_kuis' => $val[0],
                                 'kode_pilihan' => $val[1],
                                 'nilai' => '1',
                                 'id_biodata' => $id,
                                 'CreatedDate' => $Date);
+
                         $this->Crud_model->insert("responden", $data);
-                }
-                if($i == 3 && $value != null){
-                    foreach ($value as $key13 => $val) {
+                        }
 
-                    $t13 = explode("-", $value[$key13]);
-                    $nilaiF13 = $this->input->post('nilai13', TRUE)[$key13] >= 2 ? $this->input->post('nilai13', TRUE)[$key13]  : 0;
-                        if($nilaiF13 > 1){
+                        if($i == 3 && $value != null){
+                            $r13 = array();
+                            foreach ($value as $key13 => $val) {
+
+                            $t13 = explode("-", $value[$key13]);
+
+                            $nilaiF13 = $this->input->post('nilai13', TRUE)[$key13];
+                            if($nilaiF13 > 1){
                             $a13 = array(
+
                                 'kode_kuis' => $t13[0],
+
                                 'kode_pilihan' => $t13[1],
+
                                 'nilai' => $nilaiF13,
+
                                 'id_biodata' => $id,
                                 'CreatedDate' => $Date
                                 );
-                            $this->Crud_model->insert('responden',$a13);
+							$this->Crud_model->insert('responden',$a13);
+                                }
+                            }
+
+                            //$this->Crud_model->batch("responden",$r13);
                         }
-                    }
-                }
 
-                if($i == 6 && $value != null){
-                    foreach ($value as $key16 => $val) {
+                        if($i != 6 && $value != null){
+                            $r16 = array();
+                            foreach ($value as $key16 => $val) {
 
-                        $t16 = explode("-", $value[$key16]);
-                        if($t16 != null){
+                            $t16 = explode("-", $value[$key16]);
+							if($t16 != null){
                             $a16 = array(
+
                                 'kode_kuis' => $t16[0],
+
                                 'kode_pilihan' => $t16[1],
+
                                 'nilai' => '1',
+
                                 'id_biodata' => $id,
                                 'CreatedDate' => $Date
                                 );
-                        $this->Crud_model->insert("responden",$a16);
+
+                            $this->Crud_model->insert("responden",$a16);
+							}
+                            }
+
                         }
                     }
-                }
-            }
 
-            if($f1737A != null){
-                $data = array('kode_kuis' => $kode1737A,
+                    $f1737A = $this->input->post('1737A',TRUE);
+
+                    $kode1737A = $this->input->post('kode1737A',TRUE);
+
+                    $pilihan1737A = $this->input->post('pilihan1737A',TRUE);
+
+
+
+                    $f1738A = $this->input->post('1738A',TRUE);
+
+                    $kode1738A = $this->input->post('kode1738A',TRUE);
+
+                    $pilihan1738A = $this->input->post('pilihan1738A',TRUE);
+                    if($f1737A != null){
+                    $data = array('kode_kuis' => $kode1737A,
                                     'kode_pilihan' => $pilihan1737A, 
                                     'nilai' => $f1737A,  
                                     'id_biodata' => $id,
                                     'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $data);
-            }
+                    $this->Crud_model->insert("responden", $data);
+                    }
 
-            if($f1738A != null){
-                $data = array('kode_kuis' => $kode1738A,
+                    if($f1738A != null){
+                    $data = array('kode_kuis' => $kode1738A,
                                     'kode_pilihan' => $pilihan1738A, 
                                     'nilai' => $f1738A,  
                                     'id_biodata' => $id,
                                     'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $data);
-            }
+                    $this->Crud_model->insert("responden", $data);
+                    }
 
-            for ($i=1; $i < 55; $i++) { //F17
-                $f = $this->input->post('pilihan17'.$i, TRUE);
-                $value = $this->input->post('17'.$i, TRUE);
-                $kode = $this->input->post('kode17'.$i,TRUE);
-                if($value != null){
-                    $data = array(
+                    for ($i=1; $i < 55; $i++) { //F17
+                        $f = $this->input->post('pilihan17'.$i, TRUE);
+                        $value = $this->input->post('17'.$i, TRUE);
+                        $kode = $this->input->post('kode17'.$i,TRUE);
+                        if($value != null){
+                        $data = array(
                             'kode_kuis' =>$kode,
                             'kode_pilihan' =>$f, 
                             'nilai' => $value, 'id_biodata' => $id,
                             'CreatedDate' => $Date);
 
-                    $this->Crud_model->insert("responden", $data);
-                }
-            }
+                        $this->Crud_model->insert("responden", $data);
+                        }
+                    }
 
-                        #endregion 
             $this->session->set_flashdata('message', '<h2><div class="alert alert-block alert-success alert-dismissable">
+
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+
                                     &times;</button>Terimakasih telah mengisi kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center </div></h2><br>');
 
             redirect(site_url('home'));
@@ -555,6 +587,7 @@ class Kuis extends CI_Controller
     }
 
     public function create_action() //fungsi validasi sebelum ditambah data
+
     {
 
         $this->_rules();
@@ -570,6 +603,8 @@ class Kuis extends CI_Controller
             $key = 'id_biodata';
 
             $id = $this->input->post('id',TRUE);
+		
+            //$this->Respon_model->clear($id, $key);
             $data_bio = array(
 
                 'nama' => $this->input->post('nama',TRUE),
@@ -583,7 +618,19 @@ class Kuis extends CI_Controller
                 'tahun_lulus'=>$this->input->post('thn',TRUE)
 
             );
-            $this->Crud_model->update("id_biodata", $id, $data_bio, 'biodata');
+			$this->Crud_model->update("id_biodata", $id, $data_bio, 'biodata');
+            for ($i=1; $i < 8 ; $i++) { // F2
+                $value = $this->input->post('2'.$i, TRUE);
+                if($value != null){
+                $data = array(
+                    'kode_kuis' =>'2',
+                    'kode_pilihan' => $i, 
+                    'nilai' => $value, 'id_biodata' => $id,
+                    'CreatedDate' => $Date);
+
+                $this->Crud_model->insert("responden", $data);
+                }
+            }
 
             $f3 = $this->input->post('3',TRUE);
 
@@ -609,242 +656,245 @@ class Kuis extends CI_Controller
             $f8 = $this->input->post('8',TRUE);
 
             $t8 = explode("-", $f8);
-            
+
+            $a3 = array('kode_kuis' => $t3[0],'kode_pilihan' => $t3[1],'nilai' => $nilai,'id_biodata' => $id, 'CreatedDate'=>$Date);
+			if($t3[0] != null && $t3[1] != null){
+            $this->Crud_model->insert("responden", $a3);
+			}
+            $a8 = array('kode_kuis' => $t8[0],'kode_pilihan' => $t8[1],'nilai' => '1','id_biodata' => $id, 'CreatedDate'=> $Date);
+			if($t8[0] != null){
+            $this->Crud_model->insert("responden", $a8);
+			}
             $f4 = $this->input->post('4',TRUE);
-                    
-            $f5 = $this->input->post('5',TRUE);
 
-            $t5 = explode("-", $f5);
+                    $r4 = array();
+					if($f4 != null){
+                        foreach ($f4 as $key4) {
 
-            if($t5[1] == '01'){
-
-                $nilai5 = $this->input->post('nilai2', TRUE) != null ? $this->input->post('nilai2', TRUE) : "1";
-
-            } else {
-
-                $nilai5 = $this->input->post('nilai3', TRUE) != null ? $this->input->post('nilai3', TRUE) : "1";
-            }
-
-            $f6 = $this->input->post('6',TRUE);
-
-            $t6 = explode("-", $f6);
-
-            $nilai6 = $this->input->post('nilai6',TRUE);
-            
-            $f7 = $this->input->post('7',TRUE);
-
-            $t7 = explode("-", $f7);
-
-            $nilai7 = $this->input->post('nilai7',TRUE);
-            
-            $f7a = $this->input->post('7a',TRUE);
-
-            $t7a = explode("-", $f7a);
-
-            $nilai7a = $this->input->post('nilai7a',TRUE);
-
-            $f9 = $this->input->post('9',TRUE);
-            $f10 = $this->input->post('10',TRUE);
-
-            $f1737A = $this->input->post('1737A',TRUE);
-            $kode1737A = $this->input->post('kode1737A',TRUE);
-            $pilihan1737A = $this->input->post('pilihan1737A',TRUE);
-
-            $f1738A = $this->input->post('1738A',TRUE);
-            $kode1738A = $this->input->post('kode1738A',TRUE);
-            $pilihan1738A = $this->input->post('pilihan1738A',TRUE);
-
-                    #region INSERT
-                    //--------  INSERT   --------------//
-            for ($i=1; $i < 8 ; $i++) { // F2
-                $value = $this->input->post('2'.$i, TRUE);
-                if($value != null){
-                $data = array(
-                    'kode_kuis' =>'2',
-                    'kode_pilihan' => $i, 
-                    'nilai' => $value, 'id_biodata' => $id,
-                    'CreatedDate' => $Date);
-
-                $this->Crud_model->insert("responden", $data);
-                }
-            }
-
-            if($t3 != null){
-                $a3 = array('kode_kuis' => $t3[0],'kode_pilihan' => $t3[1],'nilai' => $nilai,'id_biodata' => $id, 'CreatedDate'=>$Date);
-                $this->Crud_model->insert("responden", $a3);
-            }
-                    
-            if($f4 != null){
-                foreach ($f4 as $key4 => $val) {
-                    $t4 = explode("-", $f4[$key4]);
-                        if($t4[0] != null && $t4[1] != null){
+                            $t4 = explode("-", $f4[$key4]);
+							if($t4[0] != null && $t4[1] != null){
                             $a4 = array(
-                                'kode_kuis' => $t4[0],
+
+                                'kode_kuis' => 'f4',
                                 'kode_pilihan' => $t4[1],
                                 'nilai' => '1',
                                 'id_biodata' => $id,
                                 'CreatedDate'=> $Date
                                 );
-                            $this->Crud_model->insert('responden', $a4);
-                            }
+							$this->Crud_model->insert('responden', $a4);
+							}
                         }
+
+                            //$this->Crud_model->batch("responden", $r4);
+					}
+
+
+            $f5 = $this->input->post('5',TRUE);
+
+                    $t5 = explode("-", $f5);
+
+                    if($t5[1] == '01'){
+
+                        $nilai5 = $this->input->post('nilai2', TRUE) != null ? $this->input->post('nilai2', TRUE) : "1";
+
+                    } else {
+
+                        $nilai5 = $this->input->post('nilai3', TRUE) != null ? $this->input->post('nilai3', TRUE) : "1";
+                    }
+			if($t5[0] != null && $t5[1] != null){
+            $a5 = array('kode_kuis' => $t5[0],'kode_pilihan' => $t5[1],'nilai' => $nilai5,'id_biodata' => $id, 'CreatedDate'=> $Date);
+            $this->Crud_model->insert("responden", $a5);
+			}
+            $f6 = $this->input->post('6',TRUE);
+
+                    $t6 = explode("-", $f6);
+
+                    $nilai6 = $this->input->post('nilai6',TRUE);
+
+                
+
+                    $f7 = $this->input->post('7',TRUE);
+
+                    $t7 = explode("-", $f7);
+
+                    $nilai7 = $this->input->post('nilai7',TRUE);
+
+
+
+                    $f7a = $this->input->post('7a',TRUE);
+
+                    $t7a = explode("-", $f7a);
+
+                    $nilai7a = $this->input->post('nilai7a',TRUE);
+
+                    if($nilai6 != null && $nilai6 > 0){
+                        $a6 = array('kode_kuis' => $t6[0],'kode_pilihan' => $t6[1],'nilai' => $nilai6,'id_biodata' => $id, 'CreatedDate'=> $Date);
+                        $this->Crud_model->insert("responden", $a6);
                     }
 
-            if($t5 != null){
-                $a5 = array('kode_kuis' => $t5[0],'kode_pilihan' => $t5[1],'nilai' => $nilai5,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a5);
-            }
-            
-            if($nilai6 != null && $nilai6 > 0){
-                $a6 = array('kode_kuis' => $t6[0],'kode_pilihan' => $t6[1],'nilai' => $nilai6,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a6);
-            }
+                    if($nilai7 != null && $nilai7 > 0){
+                        $a7 = array('kode_kuis' => $t7[0],'kode_pilihan' => $t7[1],'nilai' => $nilai7,'id_biodata' => $id, 'CreatedDate'=> $Date);
+                        $this->Crud_model->insert("responden", $a7);
+                    }
+                    if($nilai7a != null && $nilai7a > 0){
+                        $a7a = array('kode_kuis' => $t7a[0],'kode_pilihan' => $t7a[1],'nilai' => $nilai7a,'id_biodata' => $id, 'CreatedDate'=> $Date);
+                        $this->Crud_model->insert("responden", $a7a);
+                    }
+                    $f9 = $this->input->post('9',TRUE);
+                            $r9 = array();
+                            if($f9 != null){
+                            foreach ($f9 as $key9 => $val) {
 
-            if($nilai7 != null && $nilai7 > 0){
-                $a7 = array('kode_kuis' => $t7[0],'kode_pilihan' => $t7[1],'nilai' => $nilai7,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a7);
-            }
-                    
-            if($nilai7a != null && $nilai7a > 0){
-                $a7a = array('kode_kuis' => $t7a[0],'kode_pilihan' => $t7a[1],'nilai' => $nilai7a,'id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a7a);
-            }
-                    
-            if($t8 != null){
-                $a8 = array('kode_kuis' => $t8[0],'kode_pilihan' => $t8[1],'nilai' => '1','id_biodata' => $id, 'CreatedDate'=> $Date);
-                $this->Crud_model->insert("responden", $a8);
-            }
-            
-            if($f9 != null){
-                foreach ($f9 as $key9 => $val) {
-                    $t9 = explode("-", $f9[$key9]);
-                        if($t9 != null ) {
-                            $a9 = array(
+                                $t9 = explode("-", $f9[$key9]);
+								if($t9[0] != null && $t9[1] != null) {
+                                $a9 = array(
+
                                     'kode_kuis' => $t9[0],
+
                                     'kode_pilihan' => $t9[1],
+
                                     'nilai' => '1',
+
                                     'id_biodata' => $id,
                                     'CreatedDate' => $Date
                                     );
+								
                             $this->Crud_model->insert("responden",$a9);
+							}
+                            }
                         }
-                    }
-            }
 
-            if($f10 != null){
-                $t10 = explode("-", $f10);
-                $a10 = array('kode_kuis' => $t10[0],'kode_pilihan' => $t10[1],
+                        $f10 = $this->input->post('10',TRUE);
+
+                        if($f10 != null){
+                            $t10 = explode("-", $f10);
+                            $a10 = array('kode_kuis' => $t10[0],'kode_pilihan' => $t10[1],
                                 'nilai' => '1','id_biodata' => $id, 'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $a10);
-            }
-                        #F-11 sampai F-16
-            for ($i=0; $i < 7; $i++) { //F11-16
-                $value = $this->input->post('1'.$i, TRUE);
+                            $this->Crud_model->insert("responden", $a10);
+                        }
 
-                if($value != null && $i != 3 && $i != 6){
-                $val = explode("-", $value);
-                $data = array('kode_kuis' => $val[0],
+                        #F-11 sampai F-16
+                    for ($i=0; $i < 7; $i++) { //F11-16
+                        $value = $this->input->post('1'.$i, TRUE);
+
+                        if($value != null && $i != 3 && $i != 6){
+                        $val = explode("-", $value);
+                        $data = array('kode_kuis' => $val[0],
                                 'kode_pilihan' => $val[1],
                                 'nilai' => '1',
                                 'id_biodata' => $id,
                                 'CreatedDate' => $Date);
+
                         $this->Crud_model->insert("responden", $data);
-                }
-                if($i == 3 && $value != null){
-                    foreach ($value as $key13 => $val) {
+                        }
 
-                    $t13 = explode("-", $value[$key13]);
-                    $nilaiF13 = $this->input->post('nilai13', TRUE)[$key13] >= 2 ? $this->input->post('nilai13', TRUE)[$key13]  : 0;
-                        if($nilaiF13 > 1){
+                        if($i == 3 && $value != null){
+                            $r13 = array();
+                            foreach ($value as $key13 => $val) {
+
+                            $t13 = explode("-", $value[$key13]);
+
+                            $nilaiF13 = $this->input->post('nilai13', TRUE)[$key13];
+                            if($nilaiF13 > 1){
                             $a13 = array(
+
                                 'kode_kuis' => $t13[0],
+
                                 'kode_pilihan' => $t13[1],
+
                                 'nilai' => $nilaiF13,
+
                                 'id_biodata' => $id,
                                 'CreatedDate' => $Date
                                 );
-                            $this->Crud_model->insert('responden',$a13);
+							$this->Crud_model->insert('responden',$a13);
+                                }
+                            }
+
+                            //$this->Crud_model->batch("responden",$r13);
                         }
-                    }
-                }
 
-                if($i == 6 && $value != null){
-                    foreach ($value as $key16 => $val) {
+                        if($i != 6 && $value != null){
+                            $r16 = array();
+                            foreach ($value as $key16 => $val) {
 
-                        $t16 = explode("-", $value[$key16]);
-                        if($t16 != null){
+                            $t16 = explode("-", $value[$key16]);
+							if($t16 != null){
                             $a16 = array(
+
                                 'kode_kuis' => $t16[0],
+
                                 'kode_pilihan' => $t16[1],
+
                                 'nilai' => '1',
+
                                 'id_biodata' => $id,
                                 'CreatedDate' => $Date
                                 );
-                        $this->Crud_model->insert("responden",$a16);
+
+                            $this->Crud_model->insert("responden",$a16);
+							}
+                            }
+
                         }
                     }
-                }
-            }
 
-            if($f1737A != null){
-                $data = array('kode_kuis' => $kode1737A,
+                    $f1737A = $this->input->post('1737A',TRUE);
+
+                    $kode1737A = $this->input->post('kode1737A',TRUE);
+
+                    $pilihan1737A = $this->input->post('pilihan1737A',TRUE);
+
+
+
+                    $f1738A = $this->input->post('1738A',TRUE);
+
+                    $kode1738A = $this->input->post('kode1738A',TRUE);
+
+                    $pilihan1738A = $this->input->post('pilihan1738A',TRUE);
+                    if($f1737A != null){
+                    $data = array('kode_kuis' => $kode1737A,
                                     'kode_pilihan' => $pilihan1737A, 
                                     'nilai' => $f1737A,  
                                     'id_biodata' => $id,
                                     'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $data);
-            }
+                    $this->Crud_model->insert("responden", $data);
+                    }
 
-            if($f1738A != null){
-                $data = array('kode_kuis' => $kode1738A,
+                    if($f1738A != null){
+                    $data = array('kode_kuis' => $kode1738A,
                                     'kode_pilihan' => $pilihan1738A, 
                                     'nilai' => $f1738A,  
                                     'id_biodata' => $id,
                                     'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $data);
-            }
+                    $this->Crud_model->insert("responden", $data);
+                    }
 
-            for ($i=1; $i < 55; $i++) { //F17
-                $f = $this->input->post('pilihan17'.$i, TRUE);
-                $value = $this->input->post('17'.$i, TRUE);
-                $kode = $this->input->post('kode17'.$i,TRUE);
-                if($value != null){
-                    $data = array(
+                    for ($i=1; $i < 55; $i++) { //F17
+                        $f = $this->input->post('pilihan17'.$i, TRUE);
+                        $value = $this->input->post('17'.$i, TRUE);
+                        $kode = $this->input->post('kode17'.$i,TRUE);
+                        if($value != null){
+                        $data = array(
                             'kode_kuis' =>$kode,
                             'kode_pilihan' =>$f, 
                             'nilai' => $value, 'id_biodata' => $id,
                             'CreatedDate' => $Date);
 
-                    $this->Crud_model->insert("responden", $data);
-                }
-            }
+                        $this->Crud_model->insert("responden", $data);
+                        }
+                    }
 
-                        #endregion 
             $this->session->set_flashdata('message', '<h2><div class="alert alert-block alert-success alert-dismissable">
+
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+
                                     &times;</button>Terimakasih telah mengisi kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center </div></h2><br>');
 
             redirect(site_url('home'));
 
         }
     }
-
-    public function hapus($pop)
-
-     {
-        $key = 'id_biodata';
-
-        $this->Respon_model->clear($pop, $key);
-
-         $this->session->set_flashdata('message', '<h2><div class="alert alert-block alert-danger alert-dismissable">
-
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-
-                                    &times;</button>Data kuesioner telah dihapus dari database Tracer Study Universitas Semarang Carrer and Alumni Center </div></h2><br>');
-
-            redirect(site_url('home'));
-
-     }
 
     public function cetak_pdf($id)
 
@@ -870,15 +920,15 @@ class Kuis extends CI_Controller
 
             'start' => 0,
 
-            'nama' => $user->nama,
+            'nama' => $dat->nama,
 
-            'nim' => $user->nim,
+            'nim' => $dat->nim,
 
         );
 
 
 
-        $html = $this->load->view('User/cetak_kuis', $data, true);
+        $html = $this->load->view('User/cetak_laporan', $data, true);
 
         $this->load->library('pdf');
 
@@ -886,7 +936,7 @@ class Kuis extends CI_Controller
 
         $pdf->WriteHTML($html);
 
-        $pdf->Output('Kuesioner-'.$user->nim.'-'.date('dmY').'.pdf', 'D'); 
+        $pdf->Output('Kuesioner-'.$user->nim.'.pdf', 'D'); 
 
     }
 
@@ -905,6 +955,7 @@ class Kuis extends CI_Controller
     $this->form_validation->set_rules('email', 'email', 'trim|required');
 
     $this->form_validation->set_rules('thn', 'tahun lulus', 'trim|required');
+
     // $this->form_validation->set_rules('21', 'F2-1', 'trim|required');
 
     // $this->form_validation->set_rules('22', 'F2-2', 'trim|required');

@@ -74,7 +74,7 @@
 						<div>
 						<a href="<?= base_url();?>/library/Tracer-UCAC.apk" class="user-signup-link">
 							<i class="ace-icon fa fa-android"></i>
-									<span style="color: #fff;"> Apps Beta</span>
+									<span style="color: #fff;"> Apps</span>
 								</a>
 								</div>
 

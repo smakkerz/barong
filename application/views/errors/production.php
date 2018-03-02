@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -59,17 +57,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<!-- PAGE CONTENT BEGINS -->
 										<h1 class="grey lighter smaller">
 											<span class="blue bigger-125">
-												<i class="ace-icon fa fa-exclamation-triangle icon-exclamation-triangle"></i>
-												503
+												<i class="ace-icon fa fa-wrench icon-animated-wrench"></i>
+												808
 											</span>
-											<?php echo $heading; ?>
+											Website sedang tahap Pengembangan
 										</h1>
 
 										<hr />
 										<h3 class="lighter smaller">
-											sedang terjadi masalah di Server
+											Atau sedang terjadi masalah di Server
 										</h3>
-													<?php echo $message; ?>
+
 										<div class="space"></div>
 
 										<div>

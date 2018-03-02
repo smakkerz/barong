@@ -36,8 +36,9 @@ class Respon_model extends CI_Model
     }
     function clear($id, $key)
     {
+        $this->db->set('IsDeleted', '1');
         $this->db->where($key, $id);
-        $this->db->delete($this->table);
+        $this->db->update($this->table);
     }
     function cari()
     {

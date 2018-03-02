@@ -25,20 +25,9 @@ class T_kuis extends CI_Controller
 
     }
 
-
-
-    public function index()
-
-    {} 
-
-
-
     public function hapus($pop)
 
      {
-
-      //$clear = $this->Respon_model->where($pop);
-
         $key = 'id_biodata';
 
         $this->Respon_model->clear($pop, $key);

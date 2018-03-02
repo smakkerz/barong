@@ -54,7 +54,8 @@ class Login extends CI_Controller
                 'level' => $cek->level,
                 'id_bio' => $cek->id_biodata,
                 'password' => $cek->password,
-                'tahun_lulus' => $cek->tahun_lulus
+                'tahun_lulus' => $cek->tahun_lulus,
+                'CreatedDate' => $cek->CreatedDate
                 ));
             redirect('home', 'refresh');
         } else {
@@ -184,7 +185,9 @@ class Login extends CI_Controller
                         'domisili' => $this->input->post('domisili',TRUE),
                         'no_hp' => $telp,
                         'level' => 'User',
-                        'tahun_lulus' => 0
+                        'tahun_lulus' => 0,
+                        'CreatedDate' => date("Y-m-d H:i:s"),
+                        'IsDeleted' => 0
                         );
 
                         $this->Biodata_model->insert($data);
@@ -212,6 +215,12 @@ class Login extends CI_Controller
                 redirect(site_url('Login'));
             }
         }
+    }
+    
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect('login','refresh');
     }
 
     public function _rules() 

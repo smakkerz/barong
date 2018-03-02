@@ -13,26 +13,18 @@ class Biodata extends CI_Controller
         $this->load->model('Biodata_model');
         $this->load->model('Alumni_model');
         $this->auth->cek_auth();
-        $this->settingvalue_library->production();   
+        $this->settingvalue_library->Production();   
     }
 
     public function index()
     {
         $this->auth->cek_akses('UCACJAYA');
-        // $Biodata = $this->Biodata_model->get_all();
-
-        // $data = array(
-        //     'biodata_data' => $Biodata,
-        //     'action' => site_url('biodata/delete_all'),
-        // );
-
-        // $this->template->load('template','biodata/biodata_list', $data);
-        $this->template->load('template','programstudi/programstudi_read');
+        $this->template->load('template','biodata/biodata_list');
     } 
 
     public function data() 
     {
-        $this->template->load('template','programstudi/programstudi_read');
+        $this->template->load('template','biodata/biodata_list');
     }
 
     function json() {
@@ -60,6 +52,8 @@ class Biodata extends CI_Controller
 		'jenis_kelamin' => set_value('jenis_kelamin', $row->jenis_kelamin),
 		'domisili' => set_value('domisili', $row->domisili),
 		'no_hp' => set_value('no_hp', $row->no_hp),
+        'email' => set_value('email', $row->email),
+        'tahun_lulus' => set_value('tahun_lulus', $row->tahun_lulus),
         'level' => set_value('level', $row->level),
 	    );
             $this->template->load('template','biodata/biodata_form', $data);
@@ -107,9 +101,9 @@ class Biodata extends CI_Controller
     public function update_action() 
     {
         $this->_rules();
-
+        $id = $this->input->post('id_biodata', TRUE);
         if ($this->form_validation->run() == FALSE) {
-            $this->update(md5($this->input->post('id_biodata', TRUE)));
+            $this->update(md5($id));
         } else {
             $nama = $this->input->post('nama',TRUE);
             $nim = ucfirst($this->input->post('nim',TRUE));
@@ -122,7 +116,7 @@ class Biodata extends CI_Controller
                 {
                 $this->_rules1();
                     if($this->form_validation->run()  == FALSE){
-                        $this->update(md5($this->input->post('id_biodata', TRUE))); 
+                        $this->update(md5($id)); 
                    } else {
                         $data = array(
                             'nama' => $nama,
@@ -134,10 +128,12 @@ class Biodata extends CI_Controller
                             'jeda' => $this->input->post('jeda',TRUE),
                             'jenis_kelamin' => $this->input->post('jenis_kelamin',TRUE),
                             'domisili' => $this->input->post('domisili',TRUE),
+                            'tahun_lulus' => $this->input->post('tahun_lulus',TRUE),
+                            'email' => $this->input->post('email',TRUE),
                             'no_hp' => $telp,
                             'level' => $this->input->post('level',TRUE),
                         );
-                        $this->Biodata_model->update($this->input->post('id_biodata', TRUE), $data);
+                        $this->Biodata_model->update($id, $data);
                         $this->session->set_flashdata('message', '<span class="alert alert-success">
                 <i class="ace-icon fa fa-user"></i>
                 Perubahan sudah tersimpan <i class="ace-icon fa fa-thumbs-o-up"></i></span>');
@@ -154,10 +150,12 @@ class Biodata extends CI_Controller
                             'jeda' => 0,
                             'jenis_kelamin' => $this->input->post('jenis_kelamin',TRUE),
                             'domisili' => $this->input->post('domisili',TRUE),
+                            'tahun_lulus' => $this->input->post('tahun_lulus',TRUE),
+                            'email' => $this->input->post('email',TRUE),
                             'no_hp' => $telp,
                             'level' => $this->input->post('level',TRUE),
                         );
-                    $this->Biodata_model->update($this->input->post('id_biodata', TRUE), $data);
+                    $this->Biodata_model->update($id, $data);
                     $this->session->set_flashdata('message', '<span class="alert alert-success">
                 <i class="ace-icon fa fa-user"></i>
                 Perubahan sudah tersimpan <i class="ace-icon fa fa-thumbs-o-up"></i></span>');
@@ -178,7 +176,7 @@ class Biodata extends CI_Controller
         $row = $this->Biodata_model->get_by_id($id);
 
         if ($row) {
-            $this->Biodata_model->delete($id);
+            $this->Biodata_model->softdelete($id);
             $this->session->set_flashdata('message', '<div class="alert alert-block alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
              <i class="ace-icon fa fa-check orange"></i> 
                 Delete Record Success</div>');
@@ -212,7 +210,7 @@ class Biodata extends CI_Controller
             'biodata' => $bio
             );
         
-        $this->load->view('biodata/excel_bio', $data);
+        $this->load->view('biodata/excel_biodata', $data);
     }
 
     public function _rules() 
