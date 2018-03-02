@@ -67,7 +67,7 @@ class Identitas extends CI_Controller
         $respon = $this->Respon_model->cetak($id);
 
     
-
+        if($dat){
         $data = array(
 
             'kuis' => $row,
@@ -83,6 +83,9 @@ class Identitas extends CI_Controller
         
 
         $this->template->load('template','User/kuis_read', $data);
+    } else {
+        redirect(site_url("Home"));
+    }
 
     }
 

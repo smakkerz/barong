@@ -14,8 +14,6 @@ class Biodata_model extends CI_Model
     {
         parent::__construct();
     }
-
-    // get all
     function get_all($limit='')
     {
     $this->db->order_by($this->id, $this->order);
@@ -26,15 +24,6 @@ class Biodata_model extends CI_Model
     if($limit != '')
         $this->db->limit($limit, 0);
 
-    return $this->db->get()->result();
-    }
-
-    function join()  /////tidak dipakai
-    {
-        $this->db->order_by('b.id_biodata', 'i.tanggal_isi', 'ASC');
-        $this->db->from('biodata b');
-        $this->db->join('identitas i','b.nim=i.nim');
-        
     return $this->db->get()->result();
     }
 
@@ -75,6 +64,14 @@ class Biodata_model extends CI_Model
         return $this->db->get()->row();
     }
 
+    function getid($id) ////validasi id
+    {
+        $this->db->where('id_biodata', $id);
+        $this->db->from('biodata b');
+        $this->db->join('programstudi p','b.id_progdi=p.id_progdi');
+        return $this->db->get()->row();
+    }
+
     function get_respon($id) ////menampilkan kuisioner berdasarkan id user
     {
         $query = $this->db->get_where('responden',array('id_biodata' => $id));
@@ -107,6 +104,13 @@ class Biodata_model extends CI_Model
     {
         $this->db->where('md5(id_biodata)', $id);
         $this->db->delete($this->table);
+    }
+
+    function softdelete($id)
+    {
+        $this->db->set('IsDeleted', '1');
+        $this->db->where('md5(id_biodata)', $id);
+        $this->db->update($this->table);
     }
 
     function run($nim, $pass)
@@ -264,10 +268,12 @@ class Biodata_model extends CI_Model
     sum(case when concat(r.kode_kuis,r.kode_pilihan)=1752 then r.nilai else 0 end) 'F1752',
     sum(case when concat(r.kode_kuis,r.kode_pilihan)=1753 then r.nilai else 0 end) 'F1753',
     sum(case when concat(r.kode_kuis,r.kode_pilihan)=1754 then r.nilai else 0 end) 'F1754',
-    count(*) as total
-    FROM responden r INNER JOIN biodata b ON b.id_biodata=r.id_biodata ".$name." GROUP BY r.id_biodata";
+    count(*) as total,
+    r.CreatedDate as Date
+    FROM responden r INNER JOIN biodata b ON b.id_biodata=r.id_biodata 
+    where r.IsDeleted = 0 and b.IsDeleted = 0 ".$name." GROUP BY r.id_biodata";
     if(!empty($name)){
-        return $this->db->query($qry)->row();
+        return $this->db->query($qry);
     } else {
         return $this->db->query($qry)->result();
     }

@@ -149,6 +149,51 @@
             </span>
             </div>
         </div> 
+        <div class="form-group <?= set_validation_style('no_hp') ?>">
+            <label class="col-xs-12 col-sm-3 col-md-3 control-label no-padding-right" for="varchar">
+            <b>Email </b></label>
+            <div class="col-xs-12 col-sm-5">
+            <span class="block input-icon input-icon-right"> 
+            <input type="email" class="width-100"  minlength="10" pattern="[0-9]+" required="required" name="no_hp" id="no_hp" placeholder="xxx@xxx.com" value="<?php echo $email; ?>" />
+            <i class="ace-icon fa fa-envelope blue"></i>
+            <?= set_icon('email') ?>
+            <?php echo set_validation('email') ?>
+            </span>
+            </div>
+        </div> 
+        <div class="form-group <?= set_validation_style('no_hp') ?>">
+            <label class="col-xs-12 col-sm-3 col-md-3 control-label no-padding-right" for="varchar">
+            <b>Tahun Lulus </b></label>
+            <div class="col-xs-12 col-sm-5">
+            <span class="block input-icon input-icon-right"> 
+            <select class="form-control" required="required" name="tahun_lulus">
+
+                                    <?php 
+
+                                    $awal = 2000;
+
+                                    $now = date("Y");
+
+                                        for ($awal; $awal<= $now; $awal++) {
+                                            if($awal == $tahun_lulus){
+                                                echo "<option value='".$tahun_lulus."' selected>".$tahun_lulus."</option>";
+                                            } else {
+                                            echo "<option value='".$awal."'";
+
+                                            echo $awal?'selected':'';
+
+                                            echo">".$awal."</option>";
+                                                }
+                                            }
+
+                                    ?>
+
+                                </select>
+
+                    <?php echo form_error('tahun_lulus') ?><?= set_icon('tahun_lulus') ?>
+            </span>
+            </div>
+        </div> 
         <?php if($this->session->userdata('level') == 'UCACJAYA'){ ?>
         <div class="form-group <?= set_validation_style('level') ?>">
             <label class="col-xs-12 col-sm-3 col-md-3 control-label no-padding-right" for="varchar">

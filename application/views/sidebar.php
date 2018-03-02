@@ -37,7 +37,7 @@
 			<b class="arrow"></b>
 	</li>
 	<?php 
-		if ($this->session->userdata('level') === 'UCACJAYA') {
+		if ($this->session->userdata('level') == 'UCACJAYA') {
 	?>
 
 	<li class="">
@@ -48,7 +48,7 @@
 				<b class="arrow"></b>
 	</li>
 	<li class="">
-		<a href="<?= base_url('views-kuis'); ?>">
+		<a href="<?= base_url('kuis'); ?>">
 			<i class="menu-icon fa fa-list"></i>
 			<span class="menu-text"> Data kuis </span> 
 		</a>
@@ -73,7 +73,22 @@
 			</a>
 				<b class="arrow"></b>
 	</li>
-	<?php 
+	<?php if($this->session->userdata('nim') == "Testing123"){ ?>
+	<li class="">
+		<a href="<?=base_url('settings') ?>">
+			<i class="menu-icon fa fa-wrench"></i>
+				<span class="menu-text"> Settings </span>
+			</a>
+				<b class="arrow"></b>
+	</li>
+	<li class="">
+		<a href="<?=base_url('settings') ?>">
+			<i class="menu-icon fa fa-comment"></i>
+				<span class="menu-text"> Send SMS </span>
+			</a>
+				<b class="arrow"></b>
+	</li>
+	<?php }
 		} else {
 		$row = $this->Biodata_model->get_respon($this->session->userdata('id_bio'));
         if(count($row) == 0) {

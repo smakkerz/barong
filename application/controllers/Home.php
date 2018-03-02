@@ -85,6 +85,7 @@ class Home extends CI_Controller
             $data['domisili'] = $row->domisili;
             $data['no_hp'] = $row->no_hp;
             $data['lulus'] = $row->tahun_lulus;
+            $data['CreatedDate'] = $row->CreatedDate;
         
             ///views
         $this->template->load('template','home_view', $data);
@@ -116,6 +117,9 @@ class Home extends CI_Controller
         'jenis_kelamin' => $row->jenis_kelamin,
         'domisili' => $row->domisili,
         'no_hp' => $row->no_hp,
+        'email' => $row->email,
+        'tahun_lulus' => $row->tahun_lulus,
+        'CreatedDate' => $row->CreatedDate
         );
             $this->template->load('template','User/user_read', $data);
         } else {
@@ -177,11 +181,5 @@ class Home extends CI_Controller
             redirect(site_url('home'));
         }
         }
-    }
-
-    public function logout()
-    {
-        $this->session->sess_destroy();
-        redirect('login','refresh');
     }
  }

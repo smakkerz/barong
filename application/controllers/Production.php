@@ -12,6 +12,6 @@ class Production extends CI_Controller
 
     public function index()
     {
-    	$this->load->view('production');
+    	$this->load->view('errors/production');
     } 
 }

@@ -144,7 +144,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="21" id="f22"value="2" <?php if($f21==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="21" id="f22" value="2" <?php if($f21==2) echo "checked='checked'"; ?>>[2]Besar 
 
                                     <small>
 
@@ -1008,7 +1008,7 @@
 
                                         <b class="text-danger">F13-02</b>
 
-                                    </small>  Rp  <input type="number" name="nilai13[]"  value="<?=$f132?>" value="0" step="100" style="max-width: 95px;"> 
+                                    </small>  Rp  <input type="number" name="nilai13[]"  value="<?=$f132?>"  step="100" style="max-width: 95px;"> 
 
                                     <b>Cukup isi dengan angka </b><br>
 
@@ -1018,7 +1018,7 @@
 
                                         <b class="text-danger">F13-03</b>
 
-                                    </small>  Rp  <input type="number" name="nilai13[]"  value="<?=$f133?>" value="0" step="100" style="max-width: 95px;"> 
+                                    </small>  Rp  <input type="number" name="nilai13[]"  value="<?=$f133?>" step="100" style="max-width: 95px;"> 
 
                                     <b>Cukup isi dengan angka  </b><br>
 
