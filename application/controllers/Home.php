@@ -33,40 +33,39 @@ class Home extends CI_Controller
             
             $data['file'] = $this->Biodata_model->get_all(5);
             $data['jumlah_lulus'] = $this->Biodata_model->jmlh_alumni(date("Y"));
-            //$data['jumlah_kuis'] = count($this->Biodata_model->all_kuis(date("Y")));
+            $data['jumlah_kuis'] = count($this->Biodata_model->jmlh_kuis(date("Y")));
             $data['all_kuis'] = count($this->Biodata_model->respon());
-            } 
+            } else {
+            $data['file'] = '';
+            }
         }  else {  //views for user alaumni
             $data['file'] = "<div class='col-sm-5'>
-                                        <div class='widget-box transparent'>
-                                            <div class='widget-header widget-header-flat'>
-                                                <h4 class='widget-title lighter'>
-                                                    <i class='ace-icon fa fa-file orange'></i>
-                                                    Cetak Kuesioner
-                                                </h4>
-
-                                                <div class='widget-toolbar'>
-                                                <a href='#' data-action='reload'>
-                                                        <i class='ace-icon fa fa-refresh'></i>
-                                                    </a>
-                                                    <a href='#' data-action='collapse'>
-                                                        <i class='ace-icon fa fa-chevron-up'></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            <div class='widget-body'>
-                                                <div class='widget-main no-padding'>
-                                                    <p class='alert alert-info'>
-                                                       Kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center 
-                                    Silahkan
-                                    <a class='btn btn-primary btn-sm' href='".site_url('cetak.asp/'.md5($this->session->userdata('id_bio')))."' target='blank'>
-                                    <i class='ace-icon fa fa-file-o'></i> Cetak Kuisioner</a>
-                                                    </p>
-                                                </div>
-                                            </div>
+                                <div class='widget-box transparent'>
+                                    <div class='widget-header widget-header-flat'>
+                                        <h4 class='widget-title lighter'>
+                                        <i class='ace-icon fa fa-file orange'></i>Cetak Kuesioner
+                                        </h4>
+                                        <div class='widget-toolbar'>
+                                            <a href='#' data-action='reload'>
+                                                <i class='ace-icon fa fa-refresh'></i>
+                                            </a>
+                                            <a href='#' data-action='collapse'>
+                                                <i class='ace-icon fa fa-chevron-up'></i>
+                                            </a>
                                         </div>
-                                    </div>";
+                                    </div>
+
+                                    <div class='widget-body'>
+                                        <div class='widget-main no-padding'>
+                                            <p class='alert alert-info'>
+                                                Kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center Silahkan
+                                            <a class='btn btn-primary btn-sm' href='".site_url('cetak.asp/'.md5($this->session->userdata('id_bio')))."' target='blank'>
+                                            <i class='ace-icon fa fa-file-o'></i> Cetak Kuisioner</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>";
         }
         ///Welcome for all
         $data['isi'] = 'Selamat Datang di Tracer Study Universitas Semarang Career and Alumni Center Jumlah Alumni yang terdaftar di Tracer UCAC sampai sekarang <b>'.$data['total'].'</b> Alumni. <br> Sekarang Hari <b>'.
@@ -173,13 +172,13 @@ class Home extends CI_Controller
                                     &times;</button>Terimakasih telah merubah Password
                                     <b class="text-danger">'.$this->session->userdata('nama').'</b></div></h2>');
             redirect(site_url('home'));
-        } else {
-             $this->session->set_flashdata('message', '<h2><div class="alert alert-block alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;</button>Password tidak sama dengan Konfirmasi password, 
-                                    <b class="text-danger">'.$this->session->userdata('nama').'</b></div></h2>');
-            redirect(site_url('home'));
-        }
+            } else {
+                 $this->session->set_flashdata('message', '<h2><div class="alert alert-block alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                        &times;</button>Password tidak sama dengan Konfirmasi password, 
+                                        <b class="text-danger">'.$this->session->userdata('nama').'</b></div></h2>');
+                redirect(site_url('home'));
+            }
         }
     }
  }

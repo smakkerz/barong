@@ -3,7 +3,7 @@
                                 <!-- PAGE CONTENT BEGINS -->
             <div class="page-header">
                 <h1>
-                    <i class="ace-icon fa fa-home blue "></i> Anda membuka Halaman Beranda
+                    <i class="ace-icon fa fa-home icon-animated-home blue "></i> Anda membuka Halaman Beranda
                         <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
                     <?php echo ucfirst($this->session->userdata('nama'));?>
@@ -19,7 +19,7 @@
                         <div class="widget-box transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
-                                    <i class="ace-icon fa fa-leaf"></i>
+                                    <i class="ace-icon fa fa-leaf icon-animated-leaf green"></i>
                                         Selamat Datang, <b><?php echo ucfirst($this->session->userdata('nama'));?></b>
                                 </h4>
 
@@ -61,12 +61,12 @@
                                             </div>
 
                                             <div class="infobox-data">
-                                                <span class="infobox-data-number"><?= $jumlah_lulus ?></span>
+                                                <span class="infobox-data-number"><?= $jumlah_kuis ?></span>
                                                 <div class="infobox-content">Kuisioner di <?= date("Y") ?></div>
                                             </div>
 
                                             <div class="stat stat-blue">
-             <?php $all = $jumlah_lulus / $all_kuis; echo round($all*100, 2); ?>%
+             <?php $all = $jumlah_kuis / $all_kuis; echo round($all*100, 2); ?>%
                                             </div>
                                         </div>
 
@@ -202,7 +202,7 @@
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">
                                     <i class="ace-icon fa fa-star orange"></i>
-                                        <b><?php echo $total ?></b> Alumnus terdaftar di <?= $this->settingvalue_library->Getvalue("Company")->Value ?>
+                                        <b><?php echo $total ?></b> Alumnus terdaftar
                                 </h4>
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="reload">

@@ -1,5 +1,5 @@
 <form action="<?php echo $action; ?>" method="post">
-
+    <?= $this->session->userdata('error') <> '' ? $this->session->userdata('error') : ''; ?>
     <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" style="display: none">
 
         <table class='table table-bordered'>
@@ -12,7 +12,7 @@
 
                 <span class="block input-icon input-icon-right">
 
-                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama" value="<?= $nama; ?>" />
+                    <input type="text" class="form-control" minlength="3" name="nama" id="nama" placeholder="Nama" value="<?= $nama; ?>" required />
 
                     <?php echo form_error('nama') ?><?= set_icon('nama') ?>
 
@@ -26,7 +26,7 @@
 
                 <span class="block input-icon input-icon-right">
 
-                    <input type="text" class="form-control" name="nim" id="nim" placeholder="Nim" value="<?= $nim; ?>"
+                    <input type="text" class="form-control" pattern="[a-zA-Z0-9]+" maxlength="11" minlength="10" name="nim" id="nim" placeholder="Nim" value="<?= $nim; ?>" oninvalid="this.setCUstomValidity('Isi dengan huruf Angka')" required/>
 
                     <?php echo form_error('nim') ?><?= set_icon('nim') ?>
 
@@ -34,13 +34,13 @@
 
             </td>
 
-    	    <tr><td>No Hp </td>
+    	    <tr><td>Phone </td>
 
                 <td class="has-feedback <?= set_validation_style('no_hp') ?>">
 
                 <span class="block input-icon input-icon-right">
 
-                    <input type="tel" class="form-control" name="no_hp" id="no_hp" min="11" placeholder="No Hp" value="<?= $no_hp; ?>" required />
+                    <input type="tel" class="form-control" maxlength="13" pattern="[0-9]+" name="no_hp" id="no_hp" minlength="10" placeholder="No Hp" value="<?= $no_hp; ?>" oninvalid="this.setCUstomValidity('Isi dengan Angka')" required/>
 
                     <?php echo form_error('no_hp') ?><?= set_icon('no_hp') ?>
 
@@ -104,7 +104,7 @@
 
         </table>
 
-
+<input type="hidden" id="message" value="<?= $this->session->userdata('error') != '' ? 1 : null; ?>">
 
 <div class="row">
 
@@ -114,9 +114,8 @@
 
                 <tr><b>Tracer Study</b>
 
-                <span class="pull-right"><?= $this->session->userdata('error') <> '' ? $this->session->userdata('error') : ''; ?></span>
-
-                        <td width=" 40%" class="has-feedback <?= set_validation_style('2') ?>">
+                        <td class="alert<?= set_alert('21') ?><?= set_alert('22') ?><?= set_alert('23') ?><?= set_alert('24') ?><?= set_alert('25') ?>
+                            <?= set_alert('26') ?><?= set_alert('27') ?>" width="40%">
 
                             <small>
 
@@ -125,18 +124,17 @@
                             </small>
 
                             Menurut anda seberapa besar penekanan pada metode pembelajaran di bawah ini dilaksanakan di program studi anda?<br>
+                            </td>
 
-                            <?php echo form_error('2') ?></td>
+                        <td class="alert<?= set_alert('21') ?><?= set_alert('22') ?><?= set_alert('23') ?><?= set_alert('24') ?><?= set_alert('25') ?>
+                            <?= set_alert('26') ?><?= set_alert('27') ?>">
+                            <b>Perkuliahan<small>
 
-                        <td class="has-feedback <?= set_validation_style('21') ?>" width="55%">
-
-                            <b>Perkuliahan <small>
-
-                                 <b class="text-danger"> F2-1</b>
+                                 <b class="text-danger"> F2-1 <?php echo form_error('21') ?></b>
 
                             </small></b><br>
-
-                       <input type="radio" name="21" id="f21" value="1" <?php if($f21==1) echo "checked='checked'"; ?>>[1Sangat Besar
+                       <input type="radio" name="21" id="f21" value="1" <?= set_radio('21', '1') ?><?php if($f21==1) echo "checked='checked'"; ?>>
+                       [1]Sangat Besar
 
                                     <small>
 
@@ -144,7 +142,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="21" id="f22" value="2" <?php if($f21==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="21" id="f22" value="2" <?= set_radio('21', '2') ?><?php if($f21==2) echo "checked='checked'"; ?>>
+                        [2]Besar 
 
                                     <small>
 
@@ -152,7 +151,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="21" id="f23" value="3" <?php if($f21==3) echo "checked='checked'"; ?>>[3]Cukup Besar
+                        <input type="radio" name="21" id="f23" value="3" <?= set_radio('21', '3') ?><?php if($f21==3) echo "checked='checked'"; ?>>
+                        [3]Cukup Besar
 
                                     <small>
 
@@ -160,7 +160,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="21" id="f24" value="4" <?php if($f21==4) echo "checked='checked'"; ?>>[4]Kurang
+                        <input type="radio" name="21" id="f24" value="4" <?= set_radio('21', '4') ?><?php if($f21==4) echo "checked='checked'"; ?>>
+                        [4]Kurang
 
                                     <small>
 
@@ -168,7 +169,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="21" id="f25" value="5" <?php if($f21==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
+                        <input type="radio" name="21" id="f25" value="5" <?= set_radio('21', '5') ?><?php if($f21==5) echo "checked='checked'"; ?>>
+                        [5]Tidak Sama Sekali
 
                                     <small>
 
@@ -178,11 +180,12 @@
 
                             <b>Demonstrasi <small>
 
-                                 <b class="text-danger"> F2-2</b>
+                                 <b class="text-danger"> F2-2 <?php echo form_error('22') ?></b>
 
                             </small></b><br>
 
-                       <input type="radio" name="22" value="1" <?php if($f22==1) echo "checked='checked'"; ?>>[1Sangat Besar
+                       <input type="radio" name="22" value="1" <?= set_radio('22', '1') ?><?php if($f22==1) echo "checked='checked'"; ?>>
+                       [1]Sangat Besar
 
                                     <small>
 
@@ -190,7 +193,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="22" value="2" <?php if($f22==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="22" value="2" <?= set_radio('22', '2') ?><?php if($f22==2) echo "checked='checked'"; ?>>
+                        [2]Besar 
 
                                     <small>
 
@@ -198,7 +202,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="22" value="3" <?php if($f22==3) echo "checked='checked'"; ?>>[3]Cukup Besar
+                        <input type="radio" name="22" value="3" <?= set_radio('22', '3') ?><?php if($f22==3) echo "checked='checked'"; ?>>
+                        [3]Cukup Besar
 
                                     <small>
 
@@ -206,7 +211,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="22" value="4" <?php if($f22==4) echo "checked='checked'"; ?>>[4]Kurang
+                        <input type="radio" name="22" value="4" <?= set_radio('22', '4') ?><?php if($f22==4) echo "checked='checked'"; ?>>
+                        [4]Kurang
 
                                     <small>
 
@@ -214,7 +220,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="22" value="5" <?php if($f22==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
+                        <input type="radio" name="22" value="5" <?= set_radio('22', '5') ?><?php if($f22==5) echo "checked='checked'"; ?>>
+                        [5]Tidak Sama Sekali
 
                                     <small>
 
@@ -222,13 +229,14 @@
 
                                     </small><br>
 
-                                    <b>Partisipasi dalam proyek riset <small>
+                            <b>Partisipasi dalam proyek riset <small>
 
-                                 <b class="text-danger"> F2-3</b>
+                                 <b class="text-danger"> F2-3 <?php echo form_error('23') ?></b>
 
                             </small></b><br>
 
-                       <input type="radio" name="23" value="1" <?php if($f23==1) echo "checked='checked'"; ?>>[1Sangat Besar
+                       <input type="radio" name="23" value="1" <?= set_radio('23', '1') ?><?php if($f23==1) echo "checked='checked'"; ?>>
+                       [1Sangat Besar
 
                                     <small>
 
@@ -236,7 +244,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="23" value="2" <?php if($f23==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="23" value="2" <?= set_radio('23', '2') ?><?php if($f23==2) echo "checked='checked'"; ?>>
+                        [2]Besar 
 
                                     <small>
 
@@ -244,7 +253,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="23" value="3" <?php if($f23==3) echo "checked='checked'"; ?>>[3]Cukup Besar
+                        <input type="radio" name="23" value="3" <?= set_radio('23', '3') ?><?php if($f23==3) echo "checked='checked'"; ?>>
+                        [3]Cukup Besar
 
                                     <small>
 
@@ -252,7 +262,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="23" value="4" <?php if($f23==4) echo "checked='checked'"; ?>>[4]Kurang
+                        <input type="radio" name="23" value="4" <?= set_radio('23', '4') ?><?php if($f23==4) echo "checked='checked'"; ?>>
+                        [4]Kurang
 
                                     <small>
 
@@ -260,7 +271,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="23" value="5" <?php if($f23==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
+                        <input type="radio" name="23" value="5" <?= set_radio('23', '5') ?><?php if($f23==5) echo "checked='checked'"; ?>>
+                        [5]Tidak Sama Sekali
 
                                     <small>
 
@@ -270,11 +282,12 @@
 
                             <b>Magang <small>
 
-                                 <b class="text-danger"> F2-4</b>
+                                 <b class="text-danger"> F2-4 <?php echo form_error('24') ?></b>
 
                             </small></b><br>
 
-                       <input type="radio" name="24" value="1" <?php if($f24==1) echo "checked='checked'"; ?>>[1Sangat Besar
+                       <input type="radio" name="24" value="1" <?= set_radio('24', '1') ?><?php if($f24==1) echo "checked='checked'"; ?>>
+                       [1Sangat Besar
 
                                     <small>
 
@@ -282,7 +295,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="24" value="2" <?php if($f24==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="24" value="2" <?= set_radio('24', '2') ?><?php if($f24==2) echo "checked='checked'"; ?>>
+                        [2]Besar 
 
                                     <small>
 
@@ -290,7 +304,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="24" value="3" <?php if($f24==3) echo "checked='checked'"; ?>>[3]Cukup Besar
+                        <input type="radio" name="24" value="3" <?= set_radio('24', '3') ?><?php if($f24==3) echo "checked='checked'"; ?>>
+                        [3]Cukup Besar
 
                                     <small>
 
@@ -298,7 +313,8 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="24" value="4" <?php if($f24==4) echo "checked='checked'"; ?>>[4]Kurang
+                        <input type="radio" name="24" value="4" <?= set_radio('24', '4') ?><?php if($f24==4) echo "checked='checked'"; ?>>
+                        [4]Kurang
 
                                     <small>
 
@@ -306,21 +322,22 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="24" value="5" <?php if($f24==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
+                        <input type="radio" name="24" value="5" <?= set_radio('24', '5') ?><?php if($f24==5) echo "checked='checked'"; ?>>
+                        [5]Tidak Sama Sekali
 
                                     <small>
 
                                         <b class="text-danger">F2-05</b>
 
                                     </small><br>
-
+ 
                             <b>Praktikum <small>
 
-                                 <b class="text-danger"> F2-5</b>
+                                 <b class="text-danger"> F2-5 <?php echo form_error('25') ?> </b>
 
                             </small></b><br>
 
-                       <input type="radio" name="25" value="1" <?php if($f25==1) echo "checked='checked'"; ?>>[1Sangat Besar
+                       <input type="radio" name="25" value="1" <?= set_radio('25', '1') ?><?php if($f25==1) echo "checked='checked'"; ?>>[1Sangat Besar
 
                                     <small>
 
@@ -328,7 +345,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="25" value="2" <?php if($f25==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="25" value="2" <?= set_radio('25', '2') ?><?php if($f25==2) echo "checked='checked'"; ?>>[2]Besar 
 
                                     <small>
 
@@ -336,7 +353,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="25" value="3" <?php if($f25==3) echo "checked='checked'"; ?>>[3]Cukup Besar
+                        <input type="radio" name="25" value="3" <?= set_radio('25', '3') ?><?php if($f25==3) echo "checked='checked'"; ?>>[3]Cukup Besar
 
                                     <small>
 
@@ -344,7 +361,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="25" value="4" <?php if($f25==4) echo "checked='checked'"; ?>>[4]Kurang
+                        <input type="radio" name="25" value="4" <?= set_radio('25', '4') ?><?php if($f25==4) echo "checked='checked'"; ?>>[4]Kurang
 
                                     <small>
 
@@ -352,7 +369,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="25" value="5" <?php if($f25==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
+                        <input type="radio" name="25" value="5" <?= set_radio('25', '5') ?><?php if($f25==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
 
                                     <small>
 
@@ -362,11 +379,11 @@
 
                             <b>Kerja lapangan <small>
 
-                                 <b class="text-danger"> F2-6</b>
+                                 <b class="text-danger"> F2-6 <?php echo form_error('26') ?></b>
 
                             </small></b><br>
 
-                       <input type="radio" name="26" value="1" <?php if($f26==1) echo "checked='checked'"; ?>>[1Sangat Besar
+                       <input type="radio" name="26" value="1" <?= set_radio('26', '1') ?><?php if($f26==1) echo "checked='checked'"; ?>>[1Sangat Besar
 
                                     <small>
 
@@ -374,7 +391,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="26" value="2" <?php if($f26==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="26" value="2" <?= set_radio('26', '2') ?><?php if($f26==2) echo "checked='checked'"; ?>>[2]Besar 
 
                                     <small>
 
@@ -382,7 +399,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="26" value="3" <?php if($f26==3) echo "checked='checked'"; ?>>[3]Cukup Besar
+                        <input type="radio" name="26" value="3" <?= set_radio('26', '3') ?><?php if($f26==3) echo "checked='checked'"; ?>>[3]Cukup Besar
 
                                     <small>
 
@@ -390,7 +407,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="26" value="4" <?php if($f26==4) echo "checked='checked'"; ?>>[4]Kurang
+                        <input type="radio" name="26" value="4" <?= set_radio('26', '4') ?><?php if($f26==4) echo "checked='checked'"; ?>>[4]Kurang
 
                                     <small>
 
@@ -398,7 +415,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="26" value="5" <?php if($f26==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
+                        <input type="radio" name="26" value="5" <?= set_radio('26', '5') ?><?php if($f26==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
 
                                     <small>
 
@@ -408,11 +425,11 @@
 
                             <b>Diskusi <small>
 
-                                 <b class="text-danger"> F2-7</b>
+                                 <b class="text-danger"> F2-7 <?php echo form_error('27') ?></b>
 
                             </small></b><br>
 
-                       <input type="radio" name="27" value="1" <?php if($f27==1) echo "checked='checked'"; ?>>[1Sangat Besar
+                       <input type="radio" name="27" value="1" <?= set_radio('27', '1') ?><?php if($f27==1) echo "checked='checked'"; ?>>[1Sangat Besar
 
                                     <small>
 
@@ -420,7 +437,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="27" value="2" <?php if($f27==2) echo "checked='checked'"; ?>>[2]Besar 
+                        <input type="radio" name="27" value="2" <?= set_radio('27', '2') ?><?php if($f27==2) echo "checked='checked'"; ?>>[2]Besar 
 
                                     <small>
 
@@ -428,7 +445,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="27" value="3" <?php if($f27==3) echo "checked='checked'"; ?>>[3]Cukup Besar
+                        <input type="radio" name="27" value="3" <?= set_radio('27', '3') ?><?php if($f27==3) echo "checked='checked'"; ?>>[3]Cukup Besar
 
                                     <small>
 
@@ -436,7 +453,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="27" value="4" <?php if($f27==4) echo "checked='checked'"; ?>>[4]Kurang
+                        <input type="radio" name="27" value="4" <?= set_radio('27', '4') ?><?php if($f27==4) echo "checked='checked'"; ?>>[4]Kurang
 
                                     <small>
 
@@ -444,7 +461,7 @@
 
                                     </small>                                         <br>
 
-                        <input type="radio" name="27" value="5" <?php if($f27==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
+                        <input type="radio" name="27" value="5" <?= set_radio('27', '5') ?><?php if($f27==5) echo "checked='checked'"; ?>>[5]Tidak Sama Sekali
 
                                     <small>
 
@@ -456,9 +473,7 @@
 
                                             </tr><tr>
 
-                        <!------ ------------>
-
-                        <td width=" 40%" class="has-feedback <?= set_validation_style('3') ?>">
+                        <td width=" 40%" class="<?= set_alert('3') ?>">
 
                             <small>
 
@@ -470,27 +485,27 @@
 
                             <?php echo form_error('3') ?></td>
 
-                        <td class="has-feedback <?= set_validation_style('3') ?>">
+                        <td class="<?= set_alert('3') ?>">
 
-                       <input type="radio" name="3" id="show" value="3-1" <?= set_radio('3', '1') ?> <?php if($f31!=0) echo "checked='checked'"; ?>/>[1]Kira-kira, berapa bulan sebelum lulus  
+                       <input type="radio" name="3" id="show" value="3-1" <?= set_radio('3', '3-1') ?> <?php if($f31!=0) echo "checked='checked'"; ?>/>[1]Kira-kira, berapa bulan sebelum lulus  
 
                                     <small>
 
                                         <b class="text-danger">F3-01</b>
 
-                                    </small><input type="number" name="nilai" value="<?php echo $nilai; ?>" style="max-width: 60px;">
+                                    </small><input type="number" min="0" max="20" name="nilai" value="<?php echo $nilai; ?>" style="max-width: 60px;">
 
                                     <?php echo form_error('nilai') ?><br>
 
-                        <input type="radio" name="3" id="showA" value="3-2" <?= set_radio('3', '2') ?> <?php if($f32!=0) echo "checked='checked'"; ?>/>[2]Kira-kira, berapa bulan setelah lulus  
+                        <input type="radio" name="3" id="showA" value="3-2" <?= set_radio('3', '3-2') ?> <?php if($f32!=0) echo "checked='checked'"; ?>/>[2]Kira-kira, berapa bulan setelah lulus  
 
                                     <small>
 
                                         <b class="text-danger">F3-02</b>
 
-                                    </small><input type="number" name="nilai1" value="<?php echo $nilai1; ?>"  style="max-width: 60px;"><?php echo form_error('nilai1') ?><br>
+                                    </small><input type="number" name="nilai1" min="0" max="20" alue="<?php echo $nilai1; ?>"  style="max-width: 60px;"><?php echo form_error('nilai1') ?><br>
 
-                        <input type="radio" name="3" id="hide" value="3-3" <?= set_radio('3', '3') ?> <?php if($f33!=0) echo "checked='checked'"; ?>/>[3]Saya tidak mencari kerja <b>(Langsung ke pertanyaan f8)</b>  
+                        <input type="radio" name="3" id="hide" value="3-3" <?= set_radio('3', '3-3') ?> <?php if($f33!=0) echo "checked='checked'"; ?>/>[3]Saya tidak mencari kerja <b>(Langsung ke pertanyaan f8)</b>  
 
                                     <small>
 
@@ -512,7 +527,7 @@
 
                             Bagaimana anda mencari pekerjaan tersebut?&nbsp;Jawaban bisa lebih dari satu</td>
 
-                        <td class="has-feedback <?= set_validation_style('4') ?>">
+                        <td>
 
                        <input type="checkbox" name="4[]" value="4-1" <?= set_checkbox('4', '4-1') ?> <?php if($f41!=0) echo "checked='checked'"; ?>/>[1]Melalui iklan di koran/majalah, brosur  
 
@@ -630,7 +645,7 @@
 
                                         </tr><tr id="table1">
 
-                        <td width=" 40%">
+                        <td width="40%" class="<?= set_alert('5') ?>">
 
                             <small>
 
@@ -638,9 +653,10 @@
 
                             </small>
 
-                            Berapa bulan waktu yang dihabiskan (sebelum dan sesudah kelulusan) untuk memeroleh pekerjaan pertama</td>
+                            Berapa bulan waktu yang dihabiskan (sebelum dan sesudah kelulusan) untuk memeroleh pekerjaan pertama 
+                            <?php echo form_error('5') ?></td>
 
-                        <td class="has-feedback <?= set_validation_style('5') ?>">
+                        <td class="<?= set_alert('5') ?>">
 
                        <input type="radio" name="5" value="5-1" <?= set_radio('5', '5-1') ?> <?php if($f51!=0) echo "checked='checked'"; ?>/>Kira-kira, berapa bulan sebelum lulus  
 
@@ -648,7 +664,7 @@
 
                                         <b class="text-danger">F5-01</b>
 
-                                    </small><input type="number" name="nilai2" value="<?= $nilai2; ?>" style="max-width: 60px;">                                        <br>
+                                    </small><input type="number" min="0" max="40" name="nilai2" value="<?= $nilai2; ?>" style="max-width: 60px;">                                        <br>
 
                         <input type="radio" name="5" value="5-3" <?= set_radio('5', '5-3') ?><?php if($f53!=0) echo "checked='checked'"; ?>/>Kira-kira, berapa bulan setelah lulus  
 
@@ -656,7 +672,7 @@
 
                                         <b class="text-danger">F5-03</b>
 
-                                    </small><input type="number" name="nilai3" value="<?= $nilai3; ?>" style="max-width: 60px;">                                        <br>
+                                    </small><input type="number" min="0" max="40" name="nilai3" value="<?= $nilai3; ?>" style="max-width: 60px;">                                        <br>
 
                                             </td>
 
@@ -676,7 +692,7 @@
 
                         <input type="hidden" name="6" value="6-1">
 
-                       <input type="number" name="nilai6" value="<?= $nilai6 ?>" style="max-width: 50px;">perusahaan/instansi/institusi  
+                       <input type="number" name="nilai6" min="0" max="60" value="<?= $nilai6 ?>" style="max-width: 50px;">perusahaan/instansi/institusi  
 
                                     <small>
 
@@ -702,7 +718,7 @@
 
                         <input type="hidden" name="7" value="7-1">
 
-                       <input type="number" name="nilai7" value="<?= $nilai7 ?>"  style="max-width: 50px;">perusahaan/instansi/institusi  
+                       <input type="number" name="nilai7" min="0" max="60" value="<?= $nilai7 ?>"  style="max-width: 50px;">perusahaan/instansi/institusi  
 
                                     <small>
 
@@ -728,7 +744,7 @@
 
                         <input type="hidden" name="7a" value="7a-1">
 
-                       <input type="number" name="nilai7a" value="<?= $nilai7a ?>" style="max-width: 50px;">perusahaan/instansi/institusi  
+                       <input type="number" name="nilai7a" min="0" max="60" value="<?= $nilai7a ?>" style="max-width: 50px;">perusahaan/instansi/institusi  
 
                                     <small>
 
@@ -740,7 +756,7 @@
 
                                         </tr><tr>
 
-                        <td width=" 40%">
+                        <td width="40%" class="<?= set_alert('8') ?>">
 
                             <small>
 
@@ -752,7 +768,7 @@
 
                             <?php echo form_error('8') ?></td>
 
-                        <td class="has-feedback <?= set_validation_style('8') ?>">
+                        <td class="<?= set_alert('8') ?>">
 
                        <input type="radio" name="8" id="hide1" value="8-1" <?= set_radio('8', '8-1') ?> <?php if($f81!=0) echo "checked='checked'"; ?>/>[1]Ya <b>(Jika ya, lanjutkan ke f11)</b>  
 
@@ -774,7 +790,7 @@
 
                                         </tr><tr id="table5">
 
-                        <td width=" 40%">
+                        <td width=" 40%" class="<?= set_alert('9') ?>">
 
                             <small>
 
@@ -782,9 +798,9 @@
 
                             </small>
 
-                            Bagaimana anda menggambarkan situasi anda saat ini?&nbsp;Jawaban bisa lebih dari satu</td>
+                            Bagaimana anda menggambarkan situasi anda saat ini?&nbsp;Jawaban bisa lebih dari satu <?php echo form_error('9') ?></td>
 
-                        <td class="has-feedback <?= set_validation_style('9') ?>">
+                        <td class="<?= set_alert('9') ?>">
 
                        <input type="checkbox" name="9[]" value="9-1" <?= set_checkbox('9', '9-1') ?><?php if($f91!=0) echo "checked='checked'"; ?>/>[1]Saya masih belajar/melanjutkan kuliah profesi atau pascasarjana  
 
@@ -830,7 +846,7 @@
 
                                         </tr><tr id="table6">
 
-                        <td width=" 40%">
+                        <td width=" 40%" class="<?= set_alert('10') ?>">
 
                             <small>
 
@@ -842,7 +858,7 @@
 
                             <?php echo form_error('10') ?></td>
 
-                        <td class="has-feedback <?= set_validation_style('10') ?>">
+                        <td class="<?= set_alert('10') ?>">
 
                        <input type="radio" name="10" value="10-1" <?php if($f101!=0) echo "checked='checked'"; ?>>[1]Tidak  
 
@@ -967,7 +983,9 @@
                                     <?php 
 
                                          foreach ($list->result() as $key) {
-
+                                            if($f12 != null && $f12 == $key->kode_pilihan){
+                                            echo "<option value='".$key->kode_kuis."-".$key->kode_pilihan."' selected>".$key->pilihan."</option>";
+                                            }
                                             echo "<option value='".$key->kode_kuis."-".$key->kode_pilihan."'>".$key->pilihan."</option>";
 
                                                             } 
@@ -1256,7 +1274,61 @@
 
                                     </tr><tr>
 
-                        <td width=" 36%">
+                        <td width="36%" class="<?= set_alert('171') ?> <?= set_alert('172') ?>
+
+                            <?= set_alert('173') ?> <?= set_alert('174') ?>
+
+                            <?= set_alert('175') ?> <?= set_alert('176') ?>
+
+                            <?= set_alert('177') ?> <?=set_alert('178') ?>
+
+                            <?= set_alert('179') ?> <?= set_alert('1710') ?>
+
+                            <?= set_alert('1711') ?> <?= set_alert('1712') ?>
+
+                            <?= set_alert('1713') ?> <?=  set_alert('1714') ?>
+
+                            <?=  set_alert('1715') ?> <?=  set_alert('1716') ?>
+
+                             <?=  set_alert('1717') ?> <?=  set_alert('1718') ?>
+
+                            <?=  set_alert('1719') ?> <?=  set_alert('1720') ?>
+
+                            <?=  set_alert('1721') ?> <?=  set_alert('1722') ?>
+
+                            <?=  set_alert('1723') ?> <?= set_alert('1724') ?>
+
+                            <?= set_alert('1725') ?> <?= set_alert('1726') ?>
+
+                            <?= set_alert('1727') ?> <?= set_alert('1728') ?>
+
+                            <?= set_alert('1729') ?> <?= set_alert('1730') ?>
+
+                            <?= set_alert('1731') ?> <?= set_alert('1732') ?>
+
+                            <?= set_alert('1733') ?> <?= set_alert('1734') ?>
+
+                            <?= set_alert('1735') ?> <?= set_alert('1736') ?>
+
+                            <?= set_alert('1737') ?> <?= set_alert('1738') ?>
+
+                            <?= set_alert('1739') ?> <?= set_alert('1740') ?>
+
+                             <?= set_alert('1741') ?> <?= set_alert('1738A') ?>
+
+                            <?= set_alert('1742') ?> <?= set_alert('1743') ?>
+
+                            <?= set_alert('1744') ?> <?= set_alert('1745') ?>
+
+                            <?= set_alert('1737A') ?> <?= set_alert('1746') ?>
+
+                            <?= set_alert('1747') ?> <?= set_alert('1748') ?>
+
+                            <?= set_alert('1749') ?> <?= set_alert('1750') ?>
+
+                            <?= set_alert('1753') ?> <?= set_alert('1754') ?>
+
+                            <?= set_alert('1751') ?> <?= set_alert('1752') ?>">
 
                             <small>
 
@@ -1266,71 +1338,179 @@
 
                             Pada saat lulus, pada tingkat mana kompetensi di bawah ini anda kuasai? <b>(A)</b>&nbsp; Pada saat lulus, bagaimana kontribusi perguruan tinggi dalam hal kompetensi di bawah ini? <b>(B)</b></td>
 
-                        <td>Rendah &emsp; Tinggi <span class="pull-right">Rendah &emsp; Tinggi</span>
+                        <td>Rendah &emsp; Tinggi <span class="pull-right mini-text">Rendah &emsp; Tinggi</span>
 
-                        <br><b>&ensp; 1 &ensp; 2 &ensp; 3 &ensp; 4 &ensp; 5 <span class="pull-right">1 &ensp; 2 &ensp; 3 &ensp; 4 &ensp; 5&ensp;</span></b></td>
+                        <br><b>&ensp; 1 &ensp; 2 &ensp; 3 &ensp; 4 &ensp; 5 <span class="pull-right mini-text">1 &ensp; 2 &ensp; 3 &ensp; 4 &ensp; 5&ensp;</span></b></td>
 
-                        <tr><td>
+                        <tr><td class="<?= set_alert('171') ?> <?= set_alert('172') ?>
 
-                            <?php echo form_error('171') ?> <?php echo form_error('172') ?>
+                            <?= set_alert('173') ?> <?= set_alert('174') ?>
 
-                            <?php echo form_error('173') ?> <?php echo form_error('174') ?>
+                            <?= set_alert('175') ?> <?= set_alert('176') ?>
 
-                            <?php echo form_error('175') ?> <?php echo form_error('176') ?>
+                            <?= set_alert('177') ?> <?=set_alert('178') ?>
 
-                            <?php echo form_error('177') ?> <?php echo form_error('178') ?>
+                            <?= set_alert('179') ?> <?= set_alert('1710') ?>
 
-                            <?php echo form_error('179') ?> <?php echo form_error('1710') ?>
+                            <?= set_alert('1711') ?> <?= set_alert('1712') ?>
 
-                            <?php echo form_error('1711') ?> <?php echo form_error('1712') ?>
+                            <?= set_alert('1713') ?> <?=  set_alert('1714') ?>
 
-                            <?php echo form_error('1713') ?> <?php echo form_error('1714') ?>
+                            <?=  set_alert('1715') ?> <?=  set_alert('1716') ?>
 
-                            <?php echo form_error('1715') ?> <?php echo form_error('1716') ?>
+                             <?=  set_alert('1717') ?> <?=  set_alert('1718') ?>
 
-                             <?php echo form_error('1717') ?> <?php echo form_error('1718') ?>
+                            <?=  set_alert('1719') ?> <?=  set_alert('1720') ?>
 
-                            <?php echo form_error('1719') ?> <?php echo form_error('1720') ?>
+                            <?=  set_alert('1721') ?> <?=  set_alert('1722') ?>
 
-                            <?php echo form_error('1721') ?> <?php echo form_error('1722') ?>
+                            <?=  set_alert('1723') ?> <?= set_alert('1724') ?>
 
-                            <?php echo form_error('1723') ?> <?php echo form_error('1724') ?>
+                            <?= set_alert('1725') ?> <?= set_alert('1726') ?>
 
-                            <?php echo form_error('1725') ?> <?php echo form_error('1726') ?>
+                            <?= set_alert('1727') ?> <?= set_alert('1728') ?>
 
-                            <?php echo form_error('1727') ?> <?php echo form_error('1728') ?>
+                            <?= set_alert('1729') ?> <?= set_alert('1730') ?>
 
-                            <?php echo form_error('1729') ?> <?php echo form_error('1730') ?>
+                            <?= set_alert('1731') ?> <?= set_alert('1732') ?>
 
-                            <?php echo form_error('1731') ?> <?php echo form_error('1732') ?>
+                            <?= set_alert('1733') ?> <?= set_alert('1734') ?>
 
-                            <?php echo form_error('1733') ?> <?php echo form_error('1734') ?>
+                            <?= set_alert('1735') ?> <?= set_alert('1736') ?>
 
-                            <?php echo form_error('1735') ?> <?php echo form_error('1736') ?>
+                            <?= set_alert('1737') ?> <?= set_alert('1738') ?>
 
-                            <?php echo form_error('1737') ?> <?php echo form_error('1738') ?>
+                            <?= set_alert('1739') ?> <?= set_alert('1740') ?>
 
-                            <?php echo form_error('1739') ?> <?php echo form_error('1740') ?>
+                             <?= set_alert('1741') ?> <?= set_alert('1738A') ?>
 
-                             <?php echo form_error('1741') ?> <?php echo form_error('1738A') ?>
+                            <?= set_alert('1742') ?> <?= set_alert('1743') ?>
 
-                            <?php echo form_error('1742') ?> <?php echo form_error('1743') ?>
+                            <?= set_alert('1744') ?> <?= set_alert('1745') ?>
 
-                            <?php echo form_error('1744') ?> <?php echo form_error('1745') ?>
+                            <?= set_alert('1737A') ?> <?= set_alert('1746') ?>
 
-                            <?php echo form_error('1737A') ?> <?php echo form_error('1746') ?>
+                            <?= set_alert('1747') ?> <?= set_alert('1748') ?>
 
-                            <?php echo form_error('1747') ?> <?php echo form_error('1748') ?>
+                            <?= set_alert('1749') ?> <?= set_alert('1750') ?>
 
-                            <?php echo form_error('1749') ?> <?php echo form_error('1750') ?>
+                            <?= set_alert('1753') ?> <?= set_alert('1754') ?>
 
-                            <?php echo form_error('1753') ?> <?php echo form_error('1754') ?>
+                            <?= set_alert('1751') ?> <?= set_alert('1752') ?>">
 
-                            <?php echo form_error('1751') ?> <?php echo form_error('1752') ?>
+                            <?= form_error('171') ?> <?= form_error('172') ?>
+
+                            <?= form_error('173') ?> <?= form_error('174') ?>
+
+                            <?= form_error('175') ?> <?= form_error('176') ?>
+
+                            <?= form_error('177') ?> <?= form_error('178') ?>
+
+                            <?= form_error('179') ?> <?= form_error('1710') ?>
+
+                            <?= form_error('1711') ?> <?= form_error('1712') ?>
+
+                            <?= form_error('1713') ?> <?=  form_error('1714') ?>
+
+                            <?=  form_error('1715') ?> <?=  form_error('1716') ?>
+
+                             <?=  form_error('1717') ?> <?=  form_error('1718') ?>
+
+                            <?=  form_error('1719') ?> <?=  form_error('1720') ?>
+
+                            <?=  form_error('1721') ?> <?=  form_error('1722') ?>
+
+                            <?=  form_error('1723') ?> <?= form_error('1724') ?>
+
+                            <?= form_error('1725') ?> <?= form_error('1726') ?>
+
+                            <?= form_error('1727') ?> <?= form_error('1728') ?>
+
+                            <?= form_error('1729') ?> <?= form_error('1730') ?>
+
+                            <?= form_error('1731') ?> <?= form_error('1732') ?>
+
+                            <?= form_error('1733') ?> <?= form_error('1734') ?>
+
+                            <?= form_error('1735') ?> <?= form_error('1736') ?>
+
+                            <?= form_error('1737') ?> <?= form_error('1738') ?>
+
+                            <?= form_error('1739') ?> <?= form_error('1740') ?>
+
+                             <?= form_error('1741') ?> <?= form_error('1738A') ?>
+
+                            <?= form_error('1742') ?> <?= form_error('1743') ?>
+
+                            <?= form_error('1744') ?> <?= form_error('1745') ?>
+
+                            <?= form_error('1737A') ?> <?= form_error('1746') ?>
+
+                            <?= form_error('1747') ?> <?= form_error('1748') ?>
+
+                            <?= form_error('1749') ?> <?= form_error('1750') ?>
+
+                            <?= form_error('1753') ?> <?= form_error('1754') ?>
+
+                            <?= form_error('1751') ?> <?= form_error('1752') ?>
 
                         </td>
 
-                        <td>
+                        <td class="<?= set_alert('171') ?> <?= set_alert('172') ?>
+
+                            <?= set_alert('173') ?> <?= set_alert('174') ?>
+
+                            <?= set_alert('175') ?> <?= set_alert('176') ?>
+
+                            <?= set_alert('177') ?> <?=set_alert('178') ?>
+
+                            <?= set_alert('179') ?> <?= set_alert('1710') ?>
+
+                            <?= set_alert('1711') ?> <?= set_alert('1712') ?>
+
+                            <?= set_alert('1713') ?> <?=  set_alert('1714') ?>
+
+                            <?=  set_alert('1715') ?> <?=  set_alert('1716') ?>
+
+                             <?=  set_alert('1717') ?> <?=  set_alert('1718') ?>
+
+                            <?=  set_alert('1719') ?> <?=  set_alert('1720') ?>
+
+                            <?=  set_alert('1721') ?> <?=  set_alert('1722') ?>
+
+                            <?=  set_alert('1723') ?> <?= set_alert('1724') ?>
+
+                            <?= set_alert('1725') ?> <?= set_alert('1726') ?>
+
+                            <?= set_alert('1727') ?> <?= set_alert('1728') ?>
+
+                            <?= set_alert('1729') ?> <?= set_alert('1730') ?>
+
+                            <?= set_alert('1731') ?> <?= set_alert('1732') ?>
+
+                            <?= set_alert('1733') ?> <?= set_alert('1734') ?>
+
+                            <?= set_alert('1735') ?> <?= set_alert('1736') ?>
+
+                            <?= set_alert('1737') ?> <?= set_alert('1738') ?>
+
+                            <?= set_alert('1739') ?> <?= set_alert('1740') ?>
+
+                             <?= set_alert('1741') ?> <?= set_alert('1738A') ?>
+
+                            <?= set_alert('1742') ?> <?= set_alert('1743') ?>
+
+                            <?= set_alert('1744') ?> <?= set_alert('1745') ?>
+
+                            <?= set_alert('1737A') ?> <?= set_alert('1746') ?>
+
+                            <?= set_alert('1747') ?> <?= set_alert('1748') ?>
+
+                            <?= set_alert('1749') ?> <?= set_alert('1750') ?>
+
+                            <?= set_alert('1753') ?> <?= set_alert('1754') ?>
+
+                            <?= set_alert('1751') ?> <?= set_alert('1752') ?>">
 
                                                    <b>A</b>
 
@@ -2919,8 +3099,6 @@
 
             </table>
 
+        </div>
     </div>
-
-</div>
-
-    </form>
+</form>

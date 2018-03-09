@@ -8,18 +8,25 @@
 
 		<meta charset="utf-8" />
 
-		<title><?= $this->settingvalue_library->Getvalue("Company")->Value ?></title>
-
 		<link rel="shorcut icon" href="<?php echo base_url(); ?>library/assets/images/ucac.jpg" />
 
-		<meta name="title" content="Tracer Universitas Semarang" />
+		<meta name="title" content="<?= $this->settingvalue_library->Getvalue("Title")->Value ?>" />
 
 		<meta name="images" content="<?php echo base_url(); ?>library/assets/images/ucac.jpg" />
 
-		<meta name="description" content="User login page" />
+		<meta name="description" content="<?= $this->settingvalue_library->Getvalue("Description")->Value ?>" />
 
+     	<meta name="author" content="<?= $this->settingvalue_library->Getvalue("Author")->Value ?>" />
+
+     <meta property="og:url" content="<?php echo base_url(); ?>" />
+     <meta property="og:title" content="<?= $this->settingvalue_library->Getvalue("Title")->Value ?>" />
+     <meta property="og:description" content="<?= $this->settingvalue_library->Getvalue("Description")->Value ?>" />
+     <meta property="og:site_name" content="<?= $this->settingvalue_library->Getvalue("Title_First")->Value ?>" />
+     <meta property="og:image" content="<?php echo base_url(); ?>library/assets/images/ucac.jpg" />
+     <meta property="og:image:type" content="image/jpeg" />
+     <meta property="og:type" content="website" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
+		<title><?= $this->settingvalue_library->Getvalue("Title_First")->Value ?></title>
 
 
 		<!-- bootstrap & fontawesome -->
@@ -218,29 +225,29 @@
 
 						themessage = morning;
 
-						flag = 'white'; 
+						flag = 'fa-cloud  white'; 
 
 				  	} else if (thehours >= 11 && thehours < 15) {
 
 				    	themessage = 'Siang';
 
-				    	flag = 'orange';
+				    	flag = 'fa-certificate  yellow';
 
 					} else if (thehours >= 15 && thehours < 18) {
 
 						themessage = afternoon;
 
-						flag = 'green';
+						flag = 'fa-certificate  orange';
 
 					} else if (thehours >= 18 && thehours < 24) {
 
 						themessage = evening;
 
-						flag = 'red';
+						flag = 'fa-circle';
 
 					}
 
-					$('#flag').addClass("fa fa-flag  "+flag);
+					$('#flag').addClass("fa "+flag);
 
 					$('.greeting').append(themessage+', Alumni');
 

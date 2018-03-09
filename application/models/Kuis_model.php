@@ -1,39 +1,24 @@
 <?php
 
-
-
 if (!defined('BASEPATH'))
 
     exit('No direct script access allowed');
 
-
-
 class Kuis_model extends CI_Model
-
 {
 
-
-
     public $table = 't_kuis';
-
     public $id = 'id_kuis';
-
     public $order = 'ASC';
 
-
-
     function __construct()
-
     {
-
         parent::__construct();
-
     }
     // datatables
-
     function json() {
 
-        $this->datatables->select("b.nama as nama, b.nim as nim, r.id_biodata as ID, b.no_hp as phone, b.tahun_lulus as tahun_lulus, DATE_FORMAT(r.CreatedDate, '%d %M %Y') as date");
+        $this->datatables->select("b.nama as nama, b.nim as nim, r.id_biodata as ID, b.no_hp as phone, b.tahun_lulus as tahun_lulus, DATE_FORMAT(r.CreatedDate, '%d %M %Y %H:%i WIB') as date");
         $this->datatables->from('responden r');
         $this->datatables->join('biodata b','b.id_biodata=r.id_biodata');
         $this->datatables->group_by(array('r.id_biodata','b.nim'));
@@ -141,18 +126,21 @@ class Kuis_model extends CI_Model
 
     }
 
+    function tabel($tabel)
+    {
+        return $this->db->get($tabel)->result();
+    }
 
+    function get_dinamis($tabel)
+    {
+        return $this->db->get_where($tabel, array('kode_kuis' => '12'));
+    }
 
     // delete data
-
     function delete($id)
-
     {
-
         $this->db->where($this->id, $id);
-
         $this->db->delete($this->table);
-
     }
 
 

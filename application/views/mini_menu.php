@@ -42,7 +42,7 @@
 
 		<li>
 
-			<a href="<?= base_url('grafik') ?>">
+			<a href="<?= base_url('graph') ?>">
 
 			<i class="ace-icon fa fa-pie-chart"></i>
 

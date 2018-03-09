@@ -54,7 +54,7 @@
 		</a>
 	</li>
 	<li class="">
-		<a href="<?= base_url('grafik') ?>">
+		<a href="<?= base_url('graph') ?>">
 			<i class="menu-icon fa fa-pie-chart"></i>
 			<span class="menu-text"> Grafik </span>
 		</a>
@@ -93,14 +93,21 @@
 		$row = $this->Biodata_model->get_respon($this->session->userdata('id_bio'));
         if(count($row) == 0) {
             $site = site_url('kuis/create/'.md5($this->session->userdata('id_bio')));
+            $badge = '<span class="badge badge-transparent tooltip-error" title="" data-original-title="Kuisioner belum terisi">
+									<i class="ace-icon fa fa-exclamation-circle red bigger-130"></i>
+								</span>';
         } else {
         	$site = site_url('edit-kuis/'.$this->session->userdata('id_bio'));
+        	$badge = '<span class="badge badge-transparent tooltip-error" title="" data-original-title="Perbarui Kuisioner">
+									<i class="ace-icon fa fa-check-square-o blue bigger-130"></i>
+								</span>';
         }
 	?>
 	<li class="">
 		<a href="<?= $site ?>">
 			<i class="menu-icon fa fa-pencil-square-o"></i>
 				<span class="menu-text"> Kuisioner </span>
+				<?= $badge ?>
 		</a>
 			<b class="arrow"></b>
 	</li>

@@ -17,7 +17,6 @@ class Kuis extends CI_Controller
 
         $this->auth->cek_auth();
         $this->settingvalue_library->production();
-        $this->load->model('Identitas_model'); 
         $this->load->model('Crud_model');
         $this->load->library('datatables');
         $this->load->model('Respon_model');      
@@ -34,6 +33,7 @@ class Kuis extends CI_Controller
     {
         $this->template->load('template','kuis/kuis_list');
     }
+
     function json() {
         header('Content-Type: application/json');
         echo $this->Kuis_model->json();
@@ -65,7 +65,7 @@ class Kuis extends CI_Controller
 
             'action' => site_url('kuis/update_action'),
 
-            'list' => $this->Identitas_model->get_dinamis('t_pilihan'),
+            'list' => $this->Kuis_model->get_dinamis('t_pilihan'),
 
             'f21' => set_value('f21', $row->F21),'f22' => set_value('f22', $row->F22),
 
@@ -228,8 +228,6 @@ class Kuis extends CI_Controller
 
     }
 
-
-
     public function create()
 
     {
@@ -256,7 +254,7 @@ class Kuis extends CI_Controller
 
         'id' => set_value('id', $row->id_biodata),
 
-        'list' => $this->Identitas_model->get_dinamis('t_pilihan')
+        'list' => $this->Kuis_model->get_dinamis('t_pilihan')
 
         );
 
@@ -274,16 +272,16 @@ class Kuis extends CI_Controller
 
     }
 
-
-
-    public function update_action() //fungsi validasi sebelum ditambah data
-
+    public function create_action() //fungsi validasi sebelum ditambah data
     {
 
         $this->_rules();
 
         if ($this->form_validation->run() == FALSE) {
-             $this->edit($this->input->post('id', TRUE));
+        	$this->session->set_flashdata('error', '<div class="alert alert-block alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                    &times;</button>Mohon lengkapi data kuisioner, ada yang belum terisi. Silahkan cek kembali</div>');
+            $this->create(md5($this->input->post('id', TRUE)));
         } else {
 
             $Date = date("Y-m-d H:i:s");
@@ -308,7 +306,7 @@ class Kuis extends CI_Controller
 
             );
             
-            $this->Crud_model->update("id_biodata", $id, $data_bio, 'biodata');
+            $this->Crud_model->update('id_biodata', $id, $data_bio, 'biodata');
 
             $f3 = $this->input->post('3',TRUE);
 
@@ -369,7 +367,6 @@ class Kuis extends CI_Controller
             $nilai7a = $this->input->post('nilai7a',TRUE);
 
             $f9 = $this->input->post('9',TRUE);
-            $f10 = $this->input->post('10',TRUE);
 
             $f1737A = $this->input->post('1737A',TRUE);
             $kode1737A = $this->input->post('kode1737A',TRUE);
@@ -394,7 +391,7 @@ class Kuis extends CI_Controller
                 }
             }
 
-            if($t3 != null){
+            if($t3[0] != null && $t3[1] != null){
                 $a3 = array('kode_kuis' => $t3[0],'kode_pilihan' => $t3[1],'nilai' => $nilai,'id_biodata' => $id, 'CreatedDate'=>$Date);
                 $this->Crud_model->insert("responden", $a3);
             }
@@ -415,7 +412,7 @@ class Kuis extends CI_Controller
                         }
                     }
 
-            if($t5 != null){
+            if($t5[0] != null && $t5[1] != null){
                 $a5 = array('kode_kuis' => $t5[0],'kode_pilihan' => $t5[1],'nilai' => $nilai5,'id_biodata' => $id, 'CreatedDate'=> $Date);
                 $this->Crud_model->insert("responden", $a5);
             }
@@ -435,7 +432,7 @@ class Kuis extends CI_Controller
                 $this->Crud_model->insert("responden", $a7a);
             }
                     
-            if($t8 != null){
+            if($t8[0] != null && $t8[1] != null){
                 $a8 = array('kode_kuis' => $t8[0],'kode_pilihan' => $t8[1],'nilai' => '1','id_biodata' => $id, 'CreatedDate'=> $Date);
                 $this->Crud_model->insert("responden", $a8);
             }
@@ -455,14 +452,7 @@ class Kuis extends CI_Controller
                         }
                     }
             }
-
-            if($f10 != null){
-                $t10 = explode("-", $f10);
-                $a10 = array('kode_kuis' => $t10[0],'kode_pilihan' => $t10[1],
-                                'nilai' => '1','id_biodata' => $id, 'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $a10);
-            }
-                        #F-11 sampai F-16
+                        #F-10 sampai F-16
             for ($i=0; $i < 7; $i++) { //F11-16
                 $value = $this->input->post('1'.$i, TRUE);
 
@@ -497,7 +487,7 @@ class Kuis extends CI_Controller
                     foreach ($value as $key16 => $val) {
 
                         $t16 = explode("-", $value[$key16]);
-                        if($t16 != null){
+                        if($t16[0] != null && $t16[1] != null){
                             $a16 = array(
                                 'kode_kuis' => $t16[0],
                                 'kode_pilihan' => $t16[1],
@@ -508,6 +498,21 @@ class Kuis extends CI_Controller
                         $this->Crud_model->insert("responden",$a16);
                         }
                     }
+                }
+            }
+
+            for ($i=1; $i < 55; $i++) { //F17
+                $f = $this->input->post('pilihan17'.$i, TRUE);
+                $value = $this->input->post('17'.$i, TRUE);
+                $kode = $this->input->post('kode17'.$i,TRUE);
+                if($value != null){
+                    $data = array(
+                            'kode_kuis' =>$kode,
+                            'kode_pilihan' =>$f, 
+                            'nilai' => $value, 'id_biodata' => $id,
+                            'CreatedDate' => $Date);
+
+                    $this->Crud_model->insert("responden", $data);
                 }
             }
 
@@ -529,39 +534,26 @@ class Kuis extends CI_Controller
                 $this->Crud_model->insert("responden", $data);
             }
 
-            for ($i=1; $i < 55; $i++) { //F17
-                $f = $this->input->post('pilihan17'.$i, TRUE);
-                $value = $this->input->post('17'.$i, TRUE);
-                $kode = $this->input->post('kode17'.$i,TRUE);
-                if($value != null){
-                    $data = array(
-                            'kode_kuis' =>$kode,
-                            'kode_pilihan' =>$f, 
-                            'nilai' => $value, 'id_biodata' => $id,
-                            'CreatedDate' => $Date);
-
-                    $this->Crud_model->insert("responden", $data);
-                }
-            }
-
                         #endregion 
             $this->session->set_flashdata('message', '<h2><div class="alert alert-block alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;</button>Terimakasih telah mengisi kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center </div></h2><br>');
+                                    &times;</button>Terimakasih telah mengisi kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center </div></h2><input type="hidden" id="message" value="2" />');
 
             redirect(site_url('home'));
 
         }
     }
 
-    public function create_action() //fungsi validasi sebelum ditambah data
+     public function update_action() //fungsi validasi sebelum ditambah data
     {
 
         $this->_rules();
 
         if ($this->form_validation->run() == FALSE) {
-
-            $this->create(md5($this->input->post('id', TRUE)));
+            $this->session->set_flashdata('error', '<div class="alert alert-block alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                    &times;</button>Mohon lengkapi data kuisioner, ada yang belum terisi. Silahkan cek kembali</div>');
+            $this->edit($this->input->post('id', TRUE));
         } else {
 
 
@@ -583,7 +575,10 @@ class Kuis extends CI_Controller
                 'tahun_lulus'=>$this->input->post('thn',TRUE)
 
             );
-            $this->Crud_model->update("id_biodata", $id, $data_bio, 'biodata');
+
+            $this->Respon_model->clear($id, $key);
+            
+            $this->Crud_model->update('id_biodata', $id, $data_bio, 'biodata');
 
             $f3 = $this->input->post('3',TRUE);
 
@@ -644,7 +639,6 @@ class Kuis extends CI_Controller
             $nilai7a = $this->input->post('nilai7a',TRUE);
 
             $f9 = $this->input->post('9',TRUE);
-            $f10 = $this->input->post('10',TRUE);
 
             $f1737A = $this->input->post('1737A',TRUE);
             $kode1737A = $this->input->post('kode1737A',TRUE);
@@ -689,12 +683,19 @@ class Kuis extends CI_Controller
                             }
                         }
                     }
+            if($t3[1] == 3){
+                $this->_rulesF5();
 
-            if($t5 != null){
+                if ($this->form_validation->run() == FALSE) {
+                    $this->session->set_flashdata('error', '<div class="alert alert-block alert-danger alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;</button>Mohon lengkapi data kuisioner, ada yang belum terisi. Silahkan cek kembali</div>');
+                    $this->edit($this->input->post('id', TRUE));
+                }
                 $a5 = array('kode_kuis' => $t5[0],'kode_pilihan' => $t5[1],'nilai' => $nilai5,'id_biodata' => $id, 'CreatedDate'=> $Date);
                 $this->Crud_model->insert("responden", $a5);
             }
-            
+
             if($nilai6 != null && $nilai6 > 0){
                 $a6 = array('kode_kuis' => $t6[0],'kode_pilihan' => $t6[1],'nilai' => $nilai6,'id_biodata' => $id, 'CreatedDate'=> $Date);
                 $this->Crud_model->insert("responden", $a6);
@@ -715,7 +716,15 @@ class Kuis extends CI_Controller
                 $this->Crud_model->insert("responden", $a8);
             }
             
-            if($f9 != null){
+            if($t8[1] == 2){
+                $this->_rulesF910();
+
+                if ($this->form_validation->run() == FALSE) {
+                    $this->session->set_flashdata('error', '<div class="alert alert-block alert-danger alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;</button>Mohon lengkapi data kuisioner, ada yang belum terisi. Silahkan cek kembali</div>');
+                    $this->edit($this->input->post('id', TRUE));
+                }
                 foreach ($f9 as $key9 => $val) {
                     $t9 = explode("-", $f9[$key9]);
                         if($t9 != null ) {
@@ -729,14 +738,6 @@ class Kuis extends CI_Controller
                             $this->Crud_model->insert("responden",$a9);
                         }
                     }
-            }
-
-            if($f10 != null){
-                $t10 = explode("-", $f10);
-                $a10 = array('kode_kuis' => $t10[0],'kode_pilihan' => $t10[1],
-                                'nilai' => '1','id_biodata' => $id, 'CreatedDate' => $Date);
-                $this->Crud_model->insert("responden", $a10);
-            }
                         #F-11 sampai F-16
             for ($i=0; $i < 7; $i++) { //F11-16
                 $value = $this->input->post('1'.$i, TRUE);
@@ -786,6 +787,21 @@ class Kuis extends CI_Controller
                 }
             }
 
+            for ($i=1; $i < 55; $i++) { //F17
+                $f = $this->input->post('pilihan17'.$i, TRUE);
+                $value = $this->input->post('17'.$i, TRUE);
+                $kode = $this->input->post('kode17'.$i,TRUE);
+                if($value != null){
+                    $data = array(
+                            'kode_kuis' =>$kode,
+                            'kode_pilihan' =>$f, 
+                            'nilai' => $value, 'id_biodata' => $id,
+                            'CreatedDate' => $Date);
+
+                    $this->Crud_model->insert("responden", $data);
+                }
+            }
+
             if($f1737A != null){
                 $data = array('kode_kuis' => $kode1737A,
                                     'kode_pilihan' => $pilihan1737A, 
@@ -804,34 +820,18 @@ class Kuis extends CI_Controller
                 $this->Crud_model->insert("responden", $data);
             }
 
-            for ($i=1; $i < 55; $i++) { //F17
-                $f = $this->input->post('pilihan17'.$i, TRUE);
-                $value = $this->input->post('17'.$i, TRUE);
-                $kode = $this->input->post('kode17'.$i,TRUE);
-                if($value != null){
-                    $data = array(
-                            'kode_kuis' =>$kode,
-                            'kode_pilihan' =>$f, 
-                            'nilai' => $value, 'id_biodata' => $id,
-                            'CreatedDate' => $Date);
-
-                    $this->Crud_model->insert("responden", $data);
-                }
-            }
-
                         #endregion 
             $this->session->set_flashdata('message', '<h2><div class="alert alert-block alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;</button>Terimakasih telah mengisi kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center </div></h2><br>');
+                                    &times;</button>Terimakasih telah mengisi kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center </div></h2><input type="hidden" id="message" value="2" />');
 
             redirect(site_url('home'));
-
+        }
         }
     }
 
     public function hapus($pop)
-
-     {
+    {
         $key = 'id_biodata';
 
         $this->Respon_model->clear($pop, $key);
@@ -847,7 +847,6 @@ class Kuis extends CI_Controller
      }
 
     public function cetak_pdf($id)
-
     {
 
         $this->load->model('Respon_model');
@@ -856,7 +855,7 @@ class Kuis extends CI_Controller
 
         $user = $this->Biodata_model->get_by_id($id);
 
-        $row = $this->Identitas_model->tabel('t_kuis');
+        $row = $this->Kuis_model->tabel('t_kuis');
 
         $respon = $this->Respon_model->cetak($id);
 
@@ -890,7 +889,42 @@ class Kuis extends CI_Controller
 
     }
 
+    public function read($id)
+    {
 
+        $this->load->model('Respon_model');
+
+
+        $dat = $this->Biodata_model->get_by_id($id);
+        $row = $this->Kuis_model->tabel('t_kuis');
+        $respon = $this->Respon_model->cetak($id);
+
+        if($dat){
+        $data = array(
+            'kuis' => $row,
+            'respon' => $respon,
+            'nama' => $dat->nama,
+            'nim' => $dat->nim,
+        );
+        $this->template->load('template','User/kuis_read', $data);
+        } else {
+        redirect(site_url("Home"));
+        }
+    }
+
+    public function example()
+    {
+
+        $respon = $this->Biodata_model->respon();
+
+        $data = array(
+            'respon' => $respon,
+            'action' => site_url('t_kuis/delete_all')
+            );
+
+        $this->template->load('template','t_kuis/t_kuis_read', $data);
+
+    }
 
     public function _rules() 
 
@@ -905,139 +939,155 @@ class Kuis extends CI_Controller
     $this->form_validation->set_rules('email', 'email', 'trim|required');
 
     $this->form_validation->set_rules('thn', 'tahun lulus', 'trim|required');
-    // $this->form_validation->set_rules('21', 'F2-1', 'trim|required');
 
-    // $this->form_validation->set_rules('22', 'F2-2', 'trim|required');
+    $this->form_validation->set_rules('21', 'F2-1, ', 'trim|required');
 
-    // $this->form_validation->set_rules('23', 'F2-3', 'trim|required');
+    $this->form_validation->set_rules('22', 'F2-2, ', 'trim|required');
 
-    // $this->form_validation->set_rules('24', 'F2-4', 'trim|required');
+    $this->form_validation->set_rules('23', 'F2-3, ', 'trim|required');
 
-    // $this->form_validation->set_rules('25', 'F2-5', 'trim|required');
+    $this->form_validation->set_rules('24', 'F2-4, ', 'trim|required');
 
-    // $this->form_validation->set_rules('26', 'F2-6', 'trim|required');
+    $this->form_validation->set_rules('25', 'F2-5, ', 'trim|required');
 
-    // $this->form_validation->set_rules('27', 'F2-7', 'trim|required');
+    $this->form_validation->set_rules('26', 'F2-6, ', 'trim|required');
 
+    $this->form_validation->set_rules('27', 'F2-7, ', 'trim|required');
 
 
-    // $this->form_validation->set_rules('3', 'F3', 'trim|required');
+    $this->form_validation->set_rules('3', 'F3', 'trim|required');
 
-    // $this->form_validation->set_rules('8', 'F8', 'trim|required');
+    $this->form_validation->set_rules('8', 'F8', 'trim|required');
 
 
+    $this->form_validation->set_rules('171', 'F17-1', 'trim|required');
 
-    // $this->form_validation->set_rules('171', 'F17-1', 'trim|required');
+    $this->form_validation->set_rules('172', 'F17-2', 'trim|required');
 
-    // $this->form_validation->set_rules('172', 'F17-2', 'trim|required');
+    $this->form_validation->set_rules('173', 'F17-3', 'trim|required');
 
-    // $this->form_validation->set_rules('173', 'F17-3', 'trim|required');
+    $this->form_validation->set_rules('174', 'F17-4', 'trim|required');
 
-    // $this->form_validation->set_rules('174', 'F17-4', 'trim|required');
+    $this->form_validation->set_rules('175', 'F17-5', 'trim|required');
 
-    // $this->form_validation->set_rules('175', 'F17-5', 'trim|required');
+    $this->form_validation->set_rules('176', 'F17-6', 'trim|required');
 
-    // $this->form_validation->set_rules('176', 'F17-6', 'trim|required');
+    $this->form_validation->set_rules('177', 'F17-7', 'trim|required');
 
-    // $this->form_validation->set_rules('177', 'F17-7', 'trim|required');
+    $this->form_validation->set_rules('178', 'F17-8', 'trim|required');
 
-    // $this->form_validation->set_rules('178', 'F17-8', 'trim|required');
+    $this->form_validation->set_rules('179', 'F17-9', 'trim|required');
 
-    // $this->form_validation->set_rules('179', 'F17-9', 'trim|required');
+    $this->form_validation->set_rules('1710', 'F17-10', 'trim|required');
 
-    // $this->form_validation->set_rules('1710', 'F17-10', 'trim|required');
+    $this->form_validation->set_rules('1711', 'F17-11', 'trim|required');
 
-    // $this->form_validation->set_rules('1711', 'F17-11', 'trim|required');
+    $this->form_validation->set_rules('1712', 'F17-12', 'trim|required');
 
-    // $this->form_validation->set_rules('1712', 'F17-12', 'trim|required');
+    $this->form_validation->set_rules('1713', 'F17-13', 'trim|required');
 
-    // $this->form_validation->set_rules('1713', 'F17-13', 'trim|required');
+    $this->form_validation->set_rules('1714', 'F17-14', 'trim|required');
 
-    // $this->form_validation->set_rules('1714', 'F17-14', 'trim|required');
+    $this->form_validation->set_rules('1715', 'F17-15', 'trim|required');
 
-    // $this->form_validation->set_rules('1715', 'F17-15', 'trim|required');
+    $this->form_validation->set_rules('1716', 'F17-16', 'trim|required');
 
-    // $this->form_validation->set_rules('1716', 'F17-16', 'trim|required');
+    $this->form_validation->set_rules('1717', 'F17-17', 'trim|required');
 
-    // $this->form_validation->set_rules('1717', 'F17-17', 'trim|required');
+    $this->form_validation->set_rules('1718', 'F17-18', 'trim|required');
 
-    // $this->form_validation->set_rules('1718', 'F17-18', 'trim|required');
+    $this->form_validation->set_rules('1719', 'F17-19', 'trim|required');
 
-    // $this->form_validation->set_rules('1719', 'F17-19', 'trim|required');
+    $this->form_validation->set_rules('1720', 'F17-20', 'trim|required');
 
-    // $this->form_validation->set_rules('1720', 'F17-20', 'trim|required');
+    $this->form_validation->set_rules('1721', 'F17-21', 'trim|required');
 
-    // $this->form_validation->set_rules('1721', 'F17-21', 'trim|required');
+    $this->form_validation->set_rules('1722', 'F17-22', 'trim|required');
 
-    // $this->form_validation->set_rules('1722', 'F17-22', 'trim|required');
+    $this->form_validation->set_rules('1723', 'F17-23', 'trim|required');
 
-    // $this->form_validation->set_rules('1723', 'F17-23', 'trim|required');
+    $this->form_validation->set_rules('1724', 'F17-24', 'trim|required');
 
-    // $this->form_validation->set_rules('1724', 'F17-24', 'trim|required');
+    $this->form_validation->set_rules('1725', 'F17-25', 'trim|required');
 
-    // $this->form_validation->set_rules('1725', 'F17-25', 'trim|required');
+    $this->form_validation->set_rules('1726', 'F17-26', 'trim|required');
 
-    // $this->form_validation->set_rules('1726', 'F17-26', 'trim|required');
+    $this->form_validation->set_rules('1727', 'F17-27', 'trim|required');
 
-    // $this->form_validation->set_rules('1727', 'F17-27', 'trim|required');
+    $this->form_validation->set_rules('1728', 'F17-28', 'trim|required');
 
-    // $this->form_validation->set_rules('1728', 'F17-28', 'trim|required');
+    $this->form_validation->set_rules('1729', 'F17-29', 'trim|required');
 
-    // $this->form_validation->set_rules('1729', 'F17-29', 'trim|required');
+    $this->form_validation->set_rules('1730', 'F17-30', 'trim|required');
 
-    // $this->form_validation->set_rules('1730', 'F17-30', 'trim|required');
+    $this->form_validation->set_rules('1731', 'F17-31', 'trim|required');
 
-    // $this->form_validation->set_rules('1731', 'F17-31', 'trim|required');
+    $this->form_validation->set_rules('1732', 'F17-32', 'trim|required');
 
-    // $this->form_validation->set_rules('1732', 'F17-32', 'trim|required');
+    $this->form_validation->set_rules('1733', 'F17-33', 'trim|required');
 
-    // $this->form_validation->set_rules('1733', 'F17-33', 'trim|required');
+    $this->form_validation->set_rules('1734', 'F17-34', 'trim|required');
 
-    // $this->form_validation->set_rules('1734', 'F17-34', 'trim|required');
+    $this->form_validation->set_rules('1735', 'F17-35', 'trim|required');
 
-    // $this->form_validation->set_rules('1735', 'F17-35', 'trim|required');
+    $this->form_validation->set_rules('1736', 'F17-36', 'trim|required');
 
-    // $this->form_validation->set_rules('1736', 'F17-36', 'trim|required');
+    $this->form_validation->set_rules('1737A', 'F17-37A', 'trim|required');
 
-    // $this->form_validation->set_rules('1737A', 'F17-37A', 'trim|required');
+    $this->form_validation->set_rules('1738A', 'F17-38A', 'trim|required');
 
-    // $this->form_validation->set_rules('1738A', 'F17-38A', 'trim|required');
+    $this->form_validation->set_rules('1737', 'F17-37', 'trim|required');
 
-    // $this->form_validation->set_rules('1737', 'F17-37', 'trim|required');
+    $this->form_validation->set_rules('1738', 'F17-38', 'trim|required');
 
-    // $this->form_validation->set_rules('1738', 'F17-38', 'trim|required');
+    $this->form_validation->set_rules('1739', 'F17-39', 'trim|required');
 
-    // $this->form_validation->set_rules('1739', 'F17-39', 'trim|required');
+    $this->form_validation->set_rules('1740', 'F17-40', 'trim|required');
 
-    // $this->form_validation->set_rules('1740', 'F17-40', 'trim|required');
+    $this->form_validation->set_rules('1741', 'F17-41', 'trim|required');
 
-    // $this->form_validation->set_rules('1741', 'F17-41', 'trim|required');
+    $this->form_validation->set_rules('1742', 'F17-42', 'trim|required');
 
-    // $this->form_validation->set_rules('1742', 'F17-42', 'trim|required');
+    $this->form_validation->set_rules('1743', 'F17-43', 'trim|required');
 
-    // $this->form_validation->set_rules('1743', 'F17-43', 'trim|required');
+    $this->form_validation->set_rules('1744', 'F17-44', 'trim|required');
 
-    // $this->form_validation->set_rules('1744', 'F17-44', 'trim|required');
+    $this->form_validation->set_rules('1745', 'F17-45', 'trim|required');
 
-    // $this->form_validation->set_rules('1745', 'F17-45', 'trim|required');
+    $this->form_validation->set_rules('1746', 'F17-46', 'trim|required');
 
-    // $this->form_validation->set_rules('1746', 'F17-46', 'trim|required');
+    $this->form_validation->set_rules('1747', 'F17-47', 'trim|required');
 
-    // $this->form_validation->set_rules('1747', 'F17-47', 'trim|required');
+     $this->form_validation->set_rules('1743', 'F17-48', 'trim|required');
 
-    //  $this->form_validation->set_rules('1743', 'F17-48', 'trim|required');
+    $this->form_validation->set_rules('1749', 'F17-49', 'trim|required');
 
-    // $this->form_validation->set_rules('1749', 'F17-49', 'trim|required');
+    $this->form_validation->set_rules('1750', 'F17-50', 'trim|required');
 
-    // $this->form_validation->set_rules('1750', 'F17-50', 'trim|required');
+    $this->form_validation->set_rules('1751', 'F17-51', 'trim|required');
 
-    // $this->form_validation->set_rules('1751', 'F17-51', 'trim|required');
+    $this->form_validation->set_rules('1752', 'F17-52', 'trim|required');
 
-    // $this->form_validation->set_rules('1752', 'F17-52', 'trim|required');
+    $this->form_validation->set_rules('1753', 'F17-53', 'trim|required');
 
-    // $this->form_validation->set_rules('1753', 'F17-53', 'trim|required');
+    $this->form_validation->set_rules('1754', 'F17-54', 'trim|required');
 
-    // $this->form_validation->set_rules('1754', 'F17-54', 'trim|required');
+    $this->form_validation->set_rules('id', 'id', 'trim');
+    $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+
+    public function _rulesF5()
+    {
+    $this->form_validation->set_rules('5', 'F5', 'trim|required');
+
+    $this->form_validation->set_rules('id', 'id', 'trim');
+    $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+
+    public function _rulesF910()
+    {
+    $this->form_validation->set_rules('9', 'F9', 'trim|required');
+    $this->form_validation->set_rules('10', 'F10', 'trim|required');
 
     $this->form_validation->set_rules('id', 'id', 'trim');
     $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
