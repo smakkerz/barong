@@ -74,7 +74,7 @@ class Biodata_model extends CI_Model
 
     function get_respon($id) ////menampilkan kuisioner berdasarkan id user
     {
-        $query = $this->db->get_where('responden',array('id_biodata' => $id));
+        $query = $this->db->get_where('responden',array('id_biodata' => $id,'IsDeleted' => 0));
         $query = $query->result_array();
         return $query;
     }
@@ -82,10 +82,18 @@ class Biodata_model extends CI_Model
     function jmlh_alumni($data)
     {
         $this->db->where('tahun_lulus', $data);
+        $this->db->where('IsDeleted', 0);
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
+    function jmlh_kuis($data)
+    {
+        return $this->db->query("SELECT b.nama, count(r.id_biodata) total
+        FROM responden r join biodata b on b.id_biodata = r.id_biodata
+        WHERE year(r.CreatedDate) = $data and b.tahun_lulus = $data
+        group by r.id_biodata")->result();
+    }
     // insert data
     function insert($data)
     {
@@ -279,5 +287,4 @@ class Biodata_model extends CI_Model
     }
 
     }
-
 }

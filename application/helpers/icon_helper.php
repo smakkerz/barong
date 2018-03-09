@@ -72,3 +72,29 @@ function set_validation($field)
         }
     }
 }
+function set_alert($field)
+{
+    if ($_POST) {
+        // Apakah nama_field = array
+        if (is_array($field)) {
+            $last_status = false;
+            for ($i = 0; $i < count($field); $i++) {
+                if (form_error($field[$i]) || $last_status) {
+                    $last_status = true; // ya, ada error
+                } else {
+                    $last_status = false; // no, tidak ada error
+                }
+            }
+
+            if ($last_status) {
+                echo ' alert-warning';
+            }
+
+            // Bukan array
+        } else {
+            if (form_error($field)) {
+                echo ' alert-warning';
+            }
+        }
+    }
+}

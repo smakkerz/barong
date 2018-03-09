@@ -4,7 +4,7 @@
             <div class='box'>
                 <div class='box-header'>
                   <div class="page-header">
-                    <h1><i class="ace-icon fa fa-users "></i> Biodata Alumni Universitas Semarang
+                    <h1><i class="ace-icon fa fa-list"></i>  Data Kuis Tracer Universitas Semarang
                         <small>
                             <i class="ace-icon fa fa-angle-double-right"></i>
                                 <?php echo anchor('Biodata/excel','<i class="ace-icon fa fa-download"></i> <b>Excel</b>',array('class'=>'btn btn-success btn-round btn-sm'));?>
@@ -19,7 +19,6 @@
                             <th>Nama</th>
                             <th>NIM</th>
                             <th>Tahun Lulus</th>
-                            <th>Total Pilihan</th>
                             <th>Tanggal Isi</th>
                             <th>Opsi</th>
                         </tr>
@@ -66,7 +65,6 @@
                         {"data": "nama"},
                         {"data": "nim"},
                         {"data": "tahun_lulus"},
-                        {"data": "total"},
                         {"data": "date"},
                         {"data": "view"}
                     ],

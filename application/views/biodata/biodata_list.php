@@ -30,11 +30,11 @@
                 </th>
                 <th></th> -->
             <th>Nama</th>
-            <th>NIM</th>
             <th>Program Studi</th>
             <th>Bekerja</th>
             <th>No Hp</th>
             <th>Lulus</th>
+            <th>Date</th>
             <th>Opsi</th>
                 </tr>
             </thead>
@@ -79,11 +79,11 @@
                     columns: [
                         //{"data": "checkbox"},
                         {"data": "nama"},
-                        {"data": "nim"},
                         {"data": "jurusan"},
                         {"data": "bekerja"},
                         {"data": "hp"},
                         {"data": "lulus"},
+                        {"data": "date"},
                         {"data": "view"}
                     ],
                     rowId: 'nim',

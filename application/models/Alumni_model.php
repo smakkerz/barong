@@ -3,23 +3,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Alumni_model extends CI_Model {
 
-	var $table = 'biodata';
-	// var $column = array('nama','nim','p.strata'. .'p.jurusan','bekerja','no_hp');
-	var $order = array('id' => 'desc');
+    var $table = 'biodata';
+    // var $column = array('nama','nim','p.strata'. .'p.jurusan','bekerja','no_hp');
+    var $order = array('id' => 'desc');
 
-	public function __construct()
-	{
-		parent::__construct();
-		    $this->search = '';
+    public function __construct()
+    {
+        parent::__construct();
+            $this->search = '';
 
-	}
+    }
 
-	public function json() {
-	    $this->datatables->select("b.nama as nama, b.nim as nim, b.id_biodata as ID, b.bekerja as bekerja, b.no_hp as hp,
-	    b.tahun_lulus as lulus, concat(p.strata, ' ',p.jurusan) as jurusan, DATE_FORMAT(b.CreatedDate, '%d %M %Y') as date");
-	    $this->datatables->from('biodata b');
-	    $this->datatables->join('programstudi p','b.id_progdi=p.id_progdi');
-	    $this->datatables->where(array('b.level' => 'User','b.IsDeleted' => 0));
+    public function json() {
+        $this->datatables->select("b.nama as nama, b.nim as nim, b.id_biodata as ID, b.bekerja as bekerja, b.no_hp as hp,
+        b.tahun_lulus as lulus, concat(p.strata, ' ',p.jurusan) as jurusan, DATE_FORMAT(b.CreatedDate, '%d %M %Y %H:%i WIB') as date");
+        $this->datatables->from('biodata b');
+        $this->datatables->join('programstudi p','b.id_progdi=p.id_progdi');
+        $this->datatables->where(array('b.level' => 'User','b.IsDeleted' => 0));
         //$this->db->order_by('b.id_biodata', 'desc');
         $this->datatables->add_column('view', '<div class="hidden-sm hidden-xs action-buttons">
                 <a class="green" href="../profil.py/$1">

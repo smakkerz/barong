@@ -36,10 +36,17 @@ class Crud_model extends CI_Model
     }
 
     // update data
-    function update($id, $data)
+    function update($field, $id, $data, $table)
     {
-        $this->db->where($this->id, $id);
-        $this->db->update($this->table, $data);
+        $this->db->where($field, $id);
+        $this->db->update($table, $data);
+    }
+
+    function softdelete($field, $id, $table)
+    {
+        $this->db->set('IsDeleted', '1');
+        $this->db->where($field, $id);
+        $this->db->update($table);
     }
 
     function batch($table, $multidata)
@@ -48,10 +55,10 @@ class Crud_model extends CI_Model
     }
 
     // delete data
-    function delete($id)
+    function delete($field, $id, $table)
     {
-        $this->db->where($this->id, $id);
-        $this->db->delete($this->table);
+        $this->db->where($field, $id);
+        $this->db->delete($table);
     }
 
 }

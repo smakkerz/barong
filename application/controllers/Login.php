@@ -8,7 +8,7 @@ class Login extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Identitas_model');
+        $this->load->model('Kuis_model');
         $this->load->library('form_validation');        
     }
 
@@ -54,9 +54,9 @@ class Login extends CI_Controller
                 'level' => $cek->level,
                 'id_bio' => $cek->id_biodata,
                 'password' => $cek->password,
-                'tahun_lulus' => $cek->tahun_lulus,
-                'CreatedDate' => $cek->CreatedDate
+                'tahun_lulus' => $cek->tahun_lulus
                 ));
+            $this->session->set_flashdata('message', '<input type="hidden" id="message" value="login" />');
             redirect('home', 'refresh');
         } else {
             $this->session->set_flashdata('error', '<span class="alert alert-block alert-danger">

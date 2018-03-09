@@ -3,17 +3,27 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>UCAC JAYA</title>
 		<link rel="shorcut icon" href="<?php echo base_url(); ?>library/assets/images/ucac.jpg" />
 
-		<meta name="title" content="Tracer Universitas Semarang" />
+		<meta name="title" content="<?= $this->settingvalue_library->Getvalue("Title")->Value ?>" />
 		<meta name="images" content="<?php echo base_url(); ?>library/assets/images/ucac.jpg" />
-		<meta name="description" content="tracer UCAC JAYA" />
+		<meta name="description" content="<?= $this->settingvalue_library->Getvalue("Description")->Value ?>" />
+		<meta name="author" content="<?= $this->settingvalue_library->Getvalue("Author")->Value ?>" />
+
+	     <meta property="og:url" content="<?php echo base_url(); ?>" />
+	     <meta property="og:title" content="<?= $this->settingvalue_library->Getvalue("Title")->Value ?>" />
+	     <meta property="og:description" content="<?= $this->settingvalue_library->Getvalue("Description")->Value ?>" />
+	     <meta property="og:site_name" content="<?= $this->settingvalue_library->Getvalue("Title_Home")->Value ?>" />
+	     <meta property="og:image" content="<?php echo base_url(); ?>library/assets/images/ucac.jpg" />
+	     <meta property="og:image:type" content="image/jpeg" />
+	     <meta property="og:type" content="website" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<title><?= $this->settingvalue_library->Getvalue("Title_Home")->Value ?></title>
 
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="<?php echo base_url()?>library/assets/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="<?php echo base_url()?>library/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="<?php echo base_url()?>library/assets/font-awesome/4.5.0/css/greeting.css" />
 
 		<!-- page specific plugin styles -->
 
@@ -222,7 +232,24 @@
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
 		</div><!-- /.main-container -->
-
+	<div id="modal-msg" class="modal" tabindex="-5">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="blue bigger" id="title-message"></h4>
+                </div>
+                <div class="modal-body" id="content-message">
+                </div>
+                    <div class="modal-footer wizard-actions">
+                        <button type="submit" data-dismiss="modal" class="btn btn-sm btn-primary btn-round">
+                                Close
+                            <i class="ace-icon fa fa-times"></i>
+                        </button>
+                    </div>
+            </div>
+        </div>
+    </div>
 		<!-- basic scripts -->
 		<!-- <![endif]-->
 
@@ -253,7 +280,7 @@
 		<script src="<?php echo base_url()?>library/assets/js/jquery.validate.min.js"></script>
 		<script src="<?php echo base_url()?>library/assets/js/ace-elements.min.js"></script>
 		<script src="<?php echo base_url()?>library/assets/js/ace.min.js"></script>
-		    <script type="text/javascript">
+		<script type="text/javascript">
 		    jQuery(function($) {
 
 			    $(document).ready(function(){
@@ -294,26 +321,62 @@
 					var flag;
 
 					if (thehours >= 0 && thehours < 11) {
+
 						themessage = morning;
-						flag = 'blue'; 
+
+						flag = 'fa-cloud'; 
+
 				  	} else if (thehours >= 11 && thehours < 15) {
+
 				    	themessage = 'Siang';
-				    	flag = 'orange';
+
+				    	flag = 'fa-certificate  yellow';
+
 					} else if (thehours >= 15 && thehours < 18) {
+
 						themessage = afternoon;
-						flag = 'green';
+
+						flag = 'fa-certificate  orange';
+
 					} else if (thehours >= 18 && thehours < 24) {
+
 						themessage = evening;
-						flag = 'red';
+
+						flag = 'fa-circle';
+
 					}
+
 					//$('#flag').addClass("fa fa-flag "+flag);
 					$('#greeting').append(themessage);
+
+
+				    var msg = $("#message").val();
+				        if(msg == 1){
+							$("#title-message").append('Form Kuisioner');
+							$("#content-message").append('<h3>Kuisioner belum lengkap, mohon dilengkapi</h3>');
+				   			$("#modal-msg").modal("show");
+				       	}
+				       	else if (msg == 2) {
+							$("#title-message").append('Form Kuisioner');
+							$("#content-message").append("<h2 style='text-align: justify;'>Terimakasih telah mengisi kuesioner Tracer Study Universitas Semarang Carrer and Alumni Center </h2>");
+				   			$("#modal-msg").modal("show");
+				       	}
+				       	else if(msg == 'login') {
+							$("#title-message").append('<i class="fa '+flag+'"></i> Selamat '+ themessage +' di <?= $this->settingvalue_library->Getvalue("Title_Home")->Value ?>');
+							$("#content-message").append("<h4 style='text-align: justify;'><?= $this->settingvalue_library->Getvalue("Description")->Value ?></h4>");
+				   			$("#modal-msg").modal("show");
+				       	}
+				       	else if(msg == 'update_profil') {
+							$("#title-message").append('<i class="ace-icon fa fa-thumbs-o-up"></i> Terima Kasih');
+							$("#content-message").append("<h4>Terima Kasih telah memperbarui Profil </h4>");
+				   			$("#modal-msg").modal("show");
+				       	}
 				});
 
                 $('#modal-wizard-container').ace_wizard();
 				$('#modal-wizard .wizard-actions .btn[data-dismiss=modal]').removeAttr('disabled');
 				
 			});
-    </script>
+    	</script>
 	</body>
 </html>

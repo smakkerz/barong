@@ -40,22 +40,22 @@ class Biodata extends CI_Controller
             $data = array(
         'button' => 'Perbarui',
         'action' => site_url('biodata/update_action'),
-		'id_biodata' => set_value('id_biodata', $row->id_biodata),
-		'nama' => set_value('nama', $row->nama),
-		'nim' => set_value('nim', $row->nim),
-		'bekerja' => set_value('bekerja', $row->bekerja),
+        'id_biodata' => set_value('id_biodata', $row->id_biodata),
+        'nama' => set_value('nama', $row->nama),
+        'nim' => set_value('nim', $row->nim),
+        'bekerja' => set_value('bekerja', $row->bekerja),
         'progdi' => set_value('progdi', $row->id_progdi),
         'list_progdi' => $this->Biodata_model->get_dinamis('programstudi'),
-		'perusahaan' => set_value('perusahaan', $row->perusahaan),
-		'jabatan' => set_value('jabatan', $row->jabatan),
-		'jeda' => set_value('jeda', $row->jeda),
-		'jenis_kelamin' => set_value('jenis_kelamin', $row->jenis_kelamin),
-		'domisili' => set_value('domisili', $row->domisili),
-		'no_hp' => set_value('no_hp', $row->no_hp),
+        'perusahaan' => set_value('perusahaan', $row->perusahaan),
+        'jabatan' => set_value('jabatan', $row->jabatan),
+        'jeda' => set_value('jeda', $row->jeda),
+        'jenis_kelamin' => set_value('jenis_kelamin', $row->jenis_kelamin),
+        'domisili' => set_value('domisili', $row->domisili),
+        'no_hp' => set_value('no_hp', $row->no_hp),
         'email' => set_value('email', $row->email),
         'tahun_lulus' => set_value('tahun_lulus', $row->tahun_lulus),
         'level' => set_value('level', $row->level),
-	    );
+        );
             $this->template->load('template','biodata/biodata_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -136,7 +136,8 @@ class Biodata extends CI_Controller
                         $this->Biodata_model->update($id, $data);
                         $this->session->set_flashdata('message', '<span class="alert alert-success">
                 <i class="ace-icon fa fa-user"></i>
-                Perubahan sudah tersimpan <i class="ace-icon fa fa-thumbs-o-up"></i></span>');
+                Perubahan sudah tersimpan <i class="ace-icon fa fa-thumbs-o-up"></i></span>
+                <input type="hidden" id="message" value="update_profil" />');
                         redirect(site_url('Home'));
                         }
                     } else {
@@ -158,7 +159,8 @@ class Biodata extends CI_Controller
                     $this->Biodata_model->update($id, $data);
                     $this->session->set_flashdata('message', '<span class="alert alert-success">
                 <i class="ace-icon fa fa-user"></i>
-                Perubahan sudah tersimpan <i class="ace-icon fa fa-thumbs-o-up"></i></span>');
+                Perubahan sudah tersimpan <i class="ace-icon fa fa-thumbs-o-up"></i></span>
+                <input type="hidden" id="message" value="update_profil" />');
                     redirect(site_url('Home'));
                     }
             } else {
@@ -215,17 +217,19 @@ class Biodata extends CI_Controller
 
     public function _rules() 
     {
-	$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-	$this->form_validation->set_rules('nim', 'NIM', 'trim|required');
-	$this->form_validation->set_rules('progdi', 'program Studi', 'trim|required');
-	$this->form_validation->set_rules('bekerja', 'bekerja', 'trim|required');
-	$this->form_validation->set_rules('jenis_kelamin', 'jenis kelamin', 'trim|required');
-	$this->form_validation->set_rules('domisili', 'domisili', 'trim|required');
-	$this->form_validation->set_rules('no_hp', 'no hp', 'trim|required');
+    $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+    $this->form_validation->set_rules('nim', 'NIM', 'trim|required');
+    $this->form_validation->set_rules('progdi', 'program Studi', 'trim|required');
+    $this->form_validation->set_rules('bekerja', 'bekerja', 'trim|required');
+    $this->form_validation->set_rules('jenis_kelamin', 'jenis kelamin', 'trim|required');
+    $this->form_validation->set_rules('domisili', 'domisili', 'trim|required');
+    $this->form_validation->set_rules('no_hp', 'no hp', 'trim|required');
     $this->form_validation->set_rules('level', 'level', 'trim|required');
+    $this->form_validation->set_rules('tahun_lulus', 'tahun lulus', 'trim|required');
+    $this->form_validation->set_rules('email', 'Email', 'trim|required');
 
-	$this->form_validation->set_rules('id_biodata', 'id_biodata', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    $this->form_validation->set_rules('id_biodata', 'id_biodata', 'trim');
+    $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
     public function _rules1()

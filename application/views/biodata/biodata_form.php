@@ -43,9 +43,11 @@
                 <select class="width-100" required="required" name="progdi" id="progdi">
                     <option value="">-- Pilih Program Studi --</option>
                     <?php foreach ($list_progdi->result() as $key) {
+                            if($key->id_progdi != 0){
                             echo "<option value='".$key->id_progdi."'";
                             echo $key->id_progdi==$progdi?'selected':'';
                             echo">".$key->strata." ".$key->jurusan."</option>";
+                            }
                         } ?>
                 </select>
                 <i class="ace-icon fa fa-graduation-cap blue"></i>
@@ -154,7 +156,7 @@
             <b>Email </b></label>
             <div class="col-xs-12 col-sm-5">
             <span class="block input-icon input-icon-right"> 
-            <input type="email" class="width-100"  minlength="10" pattern="[0-9]+" required="required" name="no_hp" id="no_hp" placeholder="xxx@xxx.com" value="<?php echo $email; ?>" />
+            <input type="email" class="width-100" required="required" name="email" placeholder="xxx@xxx.com" value="<?php echo $email; ?>" />
             <i class="ace-icon fa fa-envelope blue"></i>
             <?= set_icon('email') ?>
             <?php echo set_validation('email') ?>
