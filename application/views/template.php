@@ -68,7 +68,11 @@
 					<a href="<?= base_url('home') ?>" class="navbar-brand">
 						<small>
 							<img src="<?php echo base_url(); ?>library/assets/images/ucac.jpg" class="img-circle" width="28px">
+							<?php if($this->agent->platform() != $this->agent->mobile()){ ?>
+							<?= $this->settingvalue_library->Getvalue("Title_First")->Value ?>
+							<?php } else { ?>
 							<?= $this->settingvalue_library->Getvalue("Name")->Value ?>
+							<?php } ?>
 						</small>
 					</a>
 				</div>
@@ -211,9 +215,9 @@
 						<!-- <a href="https://github.com/smakkerz" target="blank">
 								<i class="ace-icon fa fa-github-square light-blue  bigger-150"></i>
 							</a> -->
-							<a href="https://web.facebook.com/smakkerz" target="blank">
+							<!-- <a href="https://web.facebook.com/smakkerz" target="blank">
 								<i class="ace-icon fa fa-facebook-square bigger-150"></i>
-							</a>
+							</a> -->
 							<span class="blue bolder"><a href="https://sekawan.xyz/"> 
 							<i class="fa fa-trademark"></i>
 							SM4KK3RZ</a></span>  &copy; <?php echo date("Y"); ?> <?= $this->settingvalue_library->Getvalue("Company")->Value ?>

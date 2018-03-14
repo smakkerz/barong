@@ -99,7 +99,7 @@
                     'select': {
                     'style': 'multi'
                     },
-                    order: [[5, 'desc']],
+                    order: [[4, 'desc']],
                     // rowCallback: function(row, data, iDisplayIndex) {
                     //     var info = this.fnPagingInfo();
                     //     var page = info.iPage;

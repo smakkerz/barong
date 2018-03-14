@@ -8,9 +8,11 @@
                         <i class="ace-icon fa fa-angle-double-right"></i>
                     <?php echo ucfirst($this->session->userdata('nama'));?>
                         </small>
+                        <?php if($this->agent->platform() != $this->agent->mobile()){ ?>
                         <a href="<?= base_url();?>/library/Tracer-UCAC.apk" class="user-signup-link">
                             <i style="color:green;" class="ace-icon fa fa-android"></i> Apps Android
                         </a>
+                        <?php } ?>
                 </h1>
             </div>
                 <?= $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>

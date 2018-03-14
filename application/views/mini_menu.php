@@ -39,7 +39,7 @@
 		</li>
 
 
-
+		<?php if($this->agent->platform() != $this->agent->mobile()){ ?>
 		<li>
 
 			<a href="<?= base_url('graph') ?>">
@@ -50,7 +50,8 @@
 
 		</li>
 
-		<?php } else { 
+		<?php } 
+		} else { 
 
 		$row = $this->Biodata_model->get_respon($this->session->userdata('id_bio'));
 
@@ -87,7 +88,7 @@
 		</li>
 
 
-
+		<?php if($this->agent->platform() != $this->agent->mobile()){ ?>
 		<li>
 
 			<a href="<?=base_url('reset.py'); ?>/<?=md5($this->session->userdata('id_bio')) ?>">
@@ -98,7 +99,8 @@
 
 		</li>
 
-		<?php } ?>
+		<?php } 
+		} ?>
 
 
 
